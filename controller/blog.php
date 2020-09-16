@@ -13,7 +13,7 @@
 		{
 			parent::__construct();
 			$this->view->CSS = array();
-			$this->view->JS = array('views/blog/JS/dash.js');
+			$this->view->JS = array('views/blog/JS/blog.js');
 			
 		}
 		
@@ -21,11 +21,27 @@
 		function index($category=0)
 		{
 			$this->view->menu 			= $this->model->menu();
-			$this->view->last_blog 		= $this->model->blog('last');
-			$this->view->most_read_blog = $this->model->blog('most_read');
-			$this->view->most_like_blog = $this->model->blog('most_like');
+			$this->view->category 		= $this->model->category($category);
 			$this->view->render(array('blog/index'),'home');
 		}
+		
+		//Display blog window
+		function blog_list($category=0,$page_no=1)
+		{
+			$this->view->blog_list 		= $this->model->blog_list($category,$page_no);
+			$this->view->js_render('blog/AJAX/blog');
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//Display blog details
 		function details($blog=0)

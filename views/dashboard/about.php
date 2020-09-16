@@ -30,70 +30,35 @@
 			</div>
 
 			<div class="row">
+			<?php
+				foreach($this->staff as $val)
+				{
+					/*SELECT staff_id, , , staff_email, staff_address
+									,, 
+									,, , ,  
+									*/
+			?>
 				<div class="col-lg-6 mb-3">
 					<div class="member d-flex align-items-start">
-						<div class="pic"><img src="<?php echo URL ?>public/IMG/logo.png" class="img-fluid" alt=""></div>
+						<div class="pic"><img src="<?php echo URL."public/IMG/users/".$val['staff_img'] ?>" class="img-fluid" alt=""></div>
 						<div class="member-info">
-							<h4>مؤازر صلاح </h4>
-							<span>مدير التحرير</span>
-							<p>نبذة مختصرة</p>
+							<h4><?php echo $val['staff_name']?></h4>
+							<span><?php echo staff_settings::$staf_asso_type[$val['staff_type']]['AR']?></span>
+							<p><?php echo $val['staff_about']?></p>
 							<div class="social">
-								<a href=""><i class="icofont-twitter"></i></a>
-								<a href=""><i class="icofont-facebook"></i></a>
-								<a href=""><i class="icofont-instagram"></i></a>
-								<a href=""> <i class="icofont-linkedin"></i> </a>
+							<?php
+								echo (!empty($val['staff_twitter']))?'<a href="'.$val['staff_twitter'].'" target="_blank"><i class="icofont-twitter"></i></a>':"";
+								echo (!empty($val['staff_face']))?'<a href="'.$val['staff_face'].'" target="_blank"><i class="icofont-facebook"></i></a>':"";
+								echo (!empty($val['staff_instagram']))?'<a href="'.$val['staff_instagram'].'" target="_blank"><i class="icofont-instagram"></i></a>':"";
+								echo (!empty($val['staff_linked']))?'<a href="'.$val['staff_linked'].'" target="_blank"><i class="icofont-linkedin"></i></a>':"";
+							?>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6 mb-3">
-					<div class="member d-flex align-items-start">
-						<div class="pic"><img src="<?php echo URL ?>public/IMG/logo.png" class="img-fluid" alt=""></div>
-						<div class="member-info">
-							<h4>رنا مروان</h4>
-							<span>كاتب ومحرر</span>
-							<p>نبذة مختصرة</p>
-							<div class="social">
-								<a href=""><i class="icofont-twitter"></i></a>
-								<a href=""><i class="icofont-facebook"></i></a>
-								<a href=""><i class="icofont-instagram"></i></a>
-								<a href=""> <i class="icofont-linkedin"></i> </a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 mb-3">
-					<div class="member d-flex align-items-start">
-						<div class="pic"><img src="<?php echo URL ?>public/IMG/logo.png" class="img-fluid" alt=""></div>
-						<div class="member-info">
-							<h4>رنا مروان</h4>
-							<span>كاتب ومحرر</span>
-							<p>نبذة مختصرة</p>
-							<div class="social">
-								<a href=""><i class="icofont-twitter"></i></a>
-								<a href=""><i class="icofont-facebook"></i></a>
-								<a href=""><i class="icofont-instagram"></i></a>
-								<a href=""> <i class="icofont-linkedin"></i> </a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 mb-3">
-					<div class="member d-flex align-items-start">
-						<div class="pic"><img src="<?php echo URL ?>public/IMG/logo.png" class="img-fluid" alt=""></div>
-						<div class="member-info">
-							<h4>رنا مروان</h4>
-							<span>كاتب ومحرر</span>
-							<p>نبذة مختصرة</p>
-							<div class="social">
-								<a href=""><i class="icofont-twitter"></i></a>
-								<a href=""><i class="icofont-facebook"></i></a>
-								<a href=""><i class="icofont-instagram"></i></a>
-								<a href=""> <i class="icofont-linkedin"></i> </a>
-							</div>
-						</div>
-					</div>
-				</div>
+			<?php
+				}
+			?>
 			</div>
 		</div>
 	</section><!-- End Team Section -->

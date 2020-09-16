@@ -20,31 +20,92 @@
 		}
 		
 		/**
-		* function blog
-		* get last 3 blogs based on type:
-		* "last"
-		* "most_read"
-		* "most_like"
+		* function category
+		* get category
 		*/
-		public function blog($type="last",$limit=3)
+		public function category($category)
 		{
-			$order = "";
-			switch($type)
+			//get category
+			$form	= new form();
+			if(empty($category) || !$form->single_valid($category,'Integer'))
 			{
-				case "most_read": $order = "b_see"; break;
-				case "most_like": $order = "b_likes"; break;
-				case "last": default: $order = "b_accept_date";
+				return array();
+			}else
+			{
+				//get category data
+				$x = $this->db->select("SELECT cat_id, cat_name, cat_class
+										FROM ".DB_PREFEX."category
+										WHERE cat_id = :ID
+										",array(":ID"=>$category));
+				return $x[0];
 			}
-			$blog = array();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		* function blog_list
+		* get all blogs based on category:
+		* if category not found will get all blogs
+		*/
+		public function blog_list($category,$page)
+		{
+			$ret = array();
+			$where = "b_accept_date IS NOT NULL ";
+			//get bloger
+			$form	= new form();
+			if(!empty($category) || !$form->single_valid($category,'Integer'))
+			{
+				$where .= "AND b_id IN (SELECT blog_id FROM ".DB_PREFEX."blog_category WHERE category = $category ) ";
+			}
+			
+			//PAGING
+			if(!empty($page) && ctype_digit($page))
+			{
+				$c = $this->db->select("SELECT count(b_id) AS a
+										FROM ".DB_PREFEX."blog
+										WHERE $where
+										" ,array());
+										
+				$pages = ceil($c[0]['a'] / PAGING);
+			
+				$ret = array('total'=> $c[0]['a'],'no_page'=>$pages,'curr'=>$page,'data'=>array());
+				
+				// Calculate the offset for the query
+				$off = ($page - 1)  * PAGING;
+			
+				$paginglimit = "LIMIT ".PAGING." OFFSET $off";
+			}else
+			{
+				$ret = array('total'=> '','no_page'=>'','curr'=>'','data'=>array());
+				$paginglimit = "";
+			}
+			
 			//get blog data
 			$b = $this->db->select("SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
 									,b_user, staff_name, staff_phone, staff_email, staff_img
 									FROM ".DB_PREFEX."blog 
 									JOIN ".DB_PREFEX."staff ON b_user = staff_id
-									WHERE b_accept_date IS NOT NULL 
-									ORDER BY $order DESC
-									LIMIT $limit
+									WHERE $where
+									ORDER BY b_accept_date DESC
+									$paginglimit
 									",array());
+			
 			foreach($b as $val)
 			{
 				$x = array('id'			=>$val['b_id'],
@@ -74,10 +135,33 @@
 											,'class'=>$value['cat_class']
 											,'comm'=>$value['comment']));
 				}
-				array_push($blog,$x);
+				array_push($ret['data'],$x);
 			}
-			return $blog;
+			return $ret;
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		/**
 		* function most_read_blog

@@ -44,6 +44,7 @@
 						<div class="col-lg-4 col-md-6 footer-newsletter">
 							<h4>اشترك فى القائمة البريدية</h4>
 							<form id="mail_list" method="post">
+								<input type="hidden" name="csrf" id="csrf" class="hid_info" value="<?php echo session::get('csrf'); ?>" />
 								<input type="email" name="email_list"><input id="email_list_send" type="submit" value="اشترك">
 							</form>
 						</div>
@@ -63,7 +64,7 @@
 		<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
 		<script type="text/javascript">
 			var URL = "<?php echo URL?>";
-			var E_HIDE = "w3-hide";
+			var E_HIDE = "d-none";
 		</script>
 		
 		<!-- Vendor JS Files -->

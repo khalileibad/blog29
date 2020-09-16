@@ -8,6 +8,7 @@
 		
 		private $public_pages 			= array('login'			/*Login */
 												,'dashboard'	/*Public Page*/
+												,'blog'			/*Blog Pages*/
 												);
 		private $public_login_pages 	= array('profile'		/*User Profile */
 												);

@@ -31,6 +31,7 @@
 		function about()
 		{
 			$this->view->menu = $this->model->menu();
+			$this->view->staff = $this->model->staff();
 			$this->view->render(array('dashboard/about'),'home');
 		}
 		

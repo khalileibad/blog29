@@ -104,7 +104,7 @@
 						<div class="entry-meta">
 							<ul>
 								<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="<?php echo URL."blog/user/".$val['user']?>"><?php echo $val['name']?></a></li>
-								<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="<?php echo $val['publish']?>"><?php echo $val['publish']?></time></a></li>
+								<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <time datetime="<?php echo $val['publish']?>"><?php echo $val['publish']?></time></li>
 							</ul>
 						</div>
 						<div class="entry-content">

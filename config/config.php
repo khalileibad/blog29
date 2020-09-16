@@ -1,6 +1,6 @@
 <?php
 	//General Vars:
-	define('PAGING',10);
+	define('PAGING',5);
 	define('TITLE','مدوّنة');
 	define('DESCRIPTION','مدوّنة -الحرف التاسع والعشرون- 29');
 	define('KEYWORDS','مدوّنة -الحرف التاسع والعشرون- 29');

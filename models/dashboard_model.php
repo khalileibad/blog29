@@ -11,6 +11,48 @@
 		}
 		
 		/**
+		* function menu
+		* get menu
+		*/
+		public function menu()
+		{
+			return $this->db->get_menu();
+		}
+		
+		/**
+		* function mail_list
+		* save contact mail
+		* AJAX
+		*/
+		public function mail_list()
+		{
+			$time	= dates::convert_to_date('now');
+			$time	= dates::convert_to_string($time);
+			$form	= new form();
+			
+			$form	->post('email_list')
+					->valid('Email')
+					
+					->submit();
+			$fdata	= $form->fetch();
+			
+			if(!empty($fdata['MSG']))
+			{
+				return array('Error'=>$fdata['MSG']);
+			}
+			
+			//insert
+			$user_array = array('mail_name'	=>$fdata['email_list']
+								,'create_at'	=>$time
+								);
+				
+			$this->db->insert(DB_PREFEX.'mail_list',$user_array);
+				
+			return array('ok'=>1);
+			
+		}
+		
+		/**
 		* function new_cont
 		* save contact msg
 		* AJAX
@@ -57,48 +99,6 @@
 				
 			return array('ok'=>$gr_dr);
 			
-		}
-		
-		/**
-		* function mail_list
-		* save contact mail
-		* AJAX
-		*/
-		public function mail_list()
-		{
-			$time	= dates::convert_to_date('now');
-			$time	= dates::convert_to_string($time);
-			$form	= new form();
-			
-			$form	->post('email_list')
-					->valid('Email')
-					
-					->submit();
-			$fdata	= $form->fetch();
-			
-			if(!empty($fdata['MSG']))
-			{
-				return array('Error'=>$fdata['MSG']);
-			}
-			
-			//insert
-			$user_array = array('mail_name'	=>$fdata['email_list']
-								,'create_at'	=>$time
-								);
-				
-			$this->db->insert(DB_PREFEX.'mail_list',$user_array);
-				
-			return array('ok'=>1);
-			
-		}
-		
-		/**
-		* function menu
-		* get menu
-		*/
-		public function menu()
-		{
-			return $this->db->get_menu();
 		}
 		
 		/**
@@ -162,53 +162,18 @@
 		}
 		
 		/**
-		* function most_read_blog
-		* get last 3 blogs
+		* function staff
+		* get staff
 		*/
-		public function most_read_blog()
+		public function staff()
 		{
-			$blog = array();
-			//get blog data
-			$b = $this->db->select('SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
-									,b_user, staff_name, staff_phone, staff_email, staff_img
-									FROM '.DB_PREFEX.'blog 
-									JOIN '.DB_PREFEX.'staff ON b_user = staff_id
-									WHERE b_accept_date IS NOT NULL 
-									ORDER BY b_see DESC
-									LIMIT 3
+			return $this->db->select('SELECT staff_id, staff_name, staff_phone, staff_email, staff_address
+									,staff_img, staff_about,staff_type
+									,staff_face, staff_twitter, staff_linked, staff_instagram 
+									FROM '.DB_PREFEX.'staff 
+									WHERE staff_type != "bloger" 
 									',array());
-			foreach($b as $val)
-			{
-				$x = array('id'			=>$val['b_id'],
-							'title'		=>$val['b_title'],
-							'desc'		=>$val['b_desc'],
-							'img'		=>$val['b_img'],
-							'likes'		=>$val['b_likes'],
-							'b_see'		=>$val['b_see'],
-							'publish'	=>$val['b_accept_date'],
-							'user'		=>$val['b_user'],
-							'name'		=>$val['staff_name'],
-							'phone'		=>$val['staff_phone'],
-							'email'		=>$val['staff_email'],
-							'user_img'	=>$val['staff_img'],
-							'cat'		=>array()
-							);
-				//get blog category
-				$cat = $this->db->select('SELECT cat_id, cat_name,comment,cat_class
-									FROM '.DB_PREFEX.'blog_category 
-									JOIN '.DB_PREFEX.'category ON category = cat_id
-									WHERE blog_id = :ID 
-									',array(':ID'=>$val['b_id']));
-				foreach($cat as $value)
-				{
-					array_push($x['cat'],array('id'=>$value['cat_id']
-											,'name'=>$value['cat_name']
-											,'class'=>$value['cat_class']
-											,'comm'=>$value['comment']));
-				}
-				array_push($blog,$x);
-			}
-			return $blog;
+			
 		}
 		
 		
