@@ -52,7 +52,7 @@
 			$where = "b_accept_date IS NOT NULL ";
 			//get bloger
 			$form	= new form();
-			if(!empty($category) || !$form->single_valid($category,'Integer'))
+			if(!empty($category) || $form->single_valid($category,'Integer'))
 			{
 				$where .= "AND b_id IN (SELECT blog_id FROM ".DB_PREFEX."blog_category WHERE category = $category ) ";
 			}
@@ -312,17 +312,17 @@
 		{
 			//get bloger
 			$form	= new form();
-			if(!empty($id) || !$form->single_valid($id,'Integer'))
+			if(empty($id) || !$form->single_valid($id,'Integer'))
 			{
 				return array();
 			}
 			
 			//get user data
 			$b = $this->db->select("SELECT staff_id, staff_name, staff_phone, staff_email, staff_img, staff_address
-									, staff_about, staff_face, staff_twitter, staff_linked, staff_instagram 
+									,staff_about, staff_face, staff_twitter, staff_linked, staff_instagram 
 									FROM ".DB_PREFEX."staff
 									WHERE staff_id = :ID AND staff_type = 'bloger'
-									",array());
+									",array(":ID"=>$id));
 			if(count($b)!= 1)
 			{
 				return array();
@@ -344,9 +344,9 @@
 			//get blog data
 			$b = $this->db->select("SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
 									FROM ".DB_PREFEX."blog 
-									WHERE b_user = staff_id AND b_accept_date IS NOT NULL
+									WHERE b_user = :ID AND b_accept_date IS NOT NULL
 									ORDER BY b_accept_date DESC
-									",array());
+									",array(":ID"=>$id));
 			
 			foreach($b as $val)
 			{

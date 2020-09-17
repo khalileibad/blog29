@@ -19,7 +19,7 @@
 				<div class="col-lg-8 entries">
 					<article class="entry entry-single">
 						<div class="entry-img">
-							<img src="<?php echo URL."public/IMG/blog/".$this->blog['img'] ?>" alt="" class="img-fluid">
+							<img src="<?php echo URL."public/IMG/blog/".$this->blog['img'] ?>" alt="" class="img-fluid rounded d-block w-100 h-100">
 						</div>
 						<h2 class="entry-title">
 							<a><?php echo $this->blog['title']?></a>

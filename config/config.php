@@ -25,7 +25,7 @@
 	define('DB_PASS','root');
 	define('DB_NAME','blog29');
 	define('DB_charset','utf8');
-	define('DB_PREFEX','');
+	define('DB_PREFEX','b29_');
 	
 	//LINKS
 	define('FACE','#');
