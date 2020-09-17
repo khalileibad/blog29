@@ -2112,7 +2112,12 @@ section {
 .slide-img{
 	max-height: 400px !important;
 }
-/*
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.slide-img{max-height: 250px !important;}
+}
+
 #carouseId .carousel-item::before{
   content: '';
   background-color: rgba(13, 30, 35, 0.5);
@@ -2124,8 +2129,4 @@ section {
   left: 0;
   bottom: 0;
   overflow: hidden;
-}
-*/
-.carousel-item {
-	
 }
