@@ -29,7 +29,7 @@
 							{
 						?>
 							<div class="carousel-item <?php echo $active?>" style="">
-								<img src="<?php echo URL."public/IMG/blog/".$val['img'] ?>" class="img-fluid rounded d-block w-100 h-100" alt="" style="height: 200px"> <!--  -->
+								<img src="<?php echo URL."public/IMG/blog/".$val['img'] ?>" class="img-fluid rounded d-block w-100 h-100 slide-img" alt=""> <!--  -->
 								<div class="carousel-caption d-md-block">
 									<h3> <a href="<?php echo URL."blog/details/".$val['id']?>"> <?php echo $val['title']?> </a></h3>
 									<p><?php echo $val['desc']?></p>
@@ -38,7 +38,7 @@
 										<?php 
 											foreach($val['cat'] as $value)
 											{
-												echo "<span class='rounded-circle mx-1 p-1 ".$value['class']."'>".$value['name']."</span>";
+												echo "<span class='rounded mx-1 p-1 ".$value['class']."'>".$value['name']."</span>";
 											}
 										?>
 										</div>
