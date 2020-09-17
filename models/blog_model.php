@@ -288,11 +288,8 @@
 			{
 				return array('Error'=>"Blog Not Found");
 			}
+			
 			//insert
-			/*
-			SELECT `com_id`, ``, ``, `com_aut_phone`, ``, ``, 
-			`com_likes`, ``, `accept_by`, `accept_at` FROM `` WHERE 1
-			*/
 			$user_array = array('com_blog'		=>$fdata['blog_id']
 								,'com_aut_name'	=>$fdata['name']
 								,'com_aut_email'=>$fdata['email']
@@ -305,6 +302,79 @@
 				
 			return array('ok'=>$gr_dr);
 			
+		}
+		
+		/**
+		* function user
+		* get user info and blogs
+		*/
+		public function user($id)
+		{
+			//get bloger
+			$form	= new form();
+			if(!empty($id) || !$form->single_valid($id,'Integer'))
+			{
+				return array();
+			}
+			
+			//get user data
+			$b = $this->db->select("SELECT staff_id, staff_name, staff_phone, staff_email, staff_img, staff_address
+									, staff_about, staff_face, staff_twitter, staff_linked, staff_instagram 
+									FROM ".DB_PREFEX."staff
+									WHERE staff_id = :ID AND staff_type = 'bloger'
+									",array());
+			if(count($b)!= 1)
+			{
+				return array();
+			}
+			$blog_user = array('id'				=>$b[0]['staff_id'],
+								'name'			=>$b[0]['staff_name'],
+								'phone'			=>$b[0]['staff_phone'],
+								'email'			=>$b[0]['staff_email'],
+								'address'		=>$b[0]['staff_address'],
+								'about'			=>$b[0]['staff_about'],
+								'user_img'		=>$b[0]['staff_img'],
+								'user_face'		=>$b[0]['staff_face'],
+								'user_twitter'	=>$b[0]['staff_twitter'],
+								'user_instegram'=>$b[0]['staff_instagram'],
+								'user_linked'	=>$b[0]['staff_linked'],
+								'blogs'			=>array(),
+								);
+			
+			//get blog data
+			$b = $this->db->select("SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
+									FROM ".DB_PREFEX."blog 
+									WHERE b_user = staff_id AND b_accept_date IS NOT NULL
+									ORDER BY b_accept_date DESC
+									",array());
+			
+			foreach($b as $val)
+			{
+				$x = array('id'			=>$val['b_id'],
+							'title'		=>$val['b_title'],
+							'desc'		=>$val['b_desc'],
+							'img'		=>$val['b_img'],
+							'likes'		=>$val['b_likes'],
+							'b_see'		=>$val['b_see'],
+							'publish'	=>$val['b_accept_date'],
+							'cat'		=>array()
+							);
+				//get blog category
+				$cat = $this->db->select('SELECT cat_id, cat_name,comment,cat_class
+										FROM '.DB_PREFEX.'blog_category 
+										JOIN '.DB_PREFEX.'category ON category = cat_id
+										WHERE blog_id = :ID 
+										',array(':ID'=>$val['b_id']));
+				foreach($cat as $value)
+				{
+					array_push($x['cat'],array('id'=>$value['cat_id']
+											,'name'=>$value['cat_name']
+											,'class'=>$value['cat_class']
+											,'comm'=>$value['comment']));
+				}
+				array_push($blog_user['blogs'],$x);
+			}
+			return $blog_user;
 		}
 		
 		

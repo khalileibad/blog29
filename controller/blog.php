@@ -59,18 +59,18 @@
 			echo json_encode($this->model->comment());
 		}
 
-
-
-
-
 		//Display blog owner
 		function user($user=0)
 		{
 			$this->view->menu = $this->model->menu();
-			$this->view->render(array('blog/contact'),'home');
+			$this->view->user = $this->model->user($user);
+			if(empty($this->view->user))
+			{
+				$this->index();
+				return;
+			}
+			$this->view->render(array('blog/user'),'home');
 		}
-		
-		
 		
 		
 	}
