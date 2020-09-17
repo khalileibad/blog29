@@ -32,24 +32,25 @@
 			$this->view->js_render('blog/AJAX/blog');
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		//Display blog details
 		function details($blog=0)
 		{
 			$this->view->menu = $this->model->menu();
-			$this->view->render(array('blog/about'),'home');
+			$this->view->blog = $this->model->blog($blog);
+			if(empty($this->view->blog))
+			{
+				$this->index();
+				return;
+			}
+			$this->view->curr_title 	= $this->view->blog['title'];
+			$this->view->keywords 		= $this->view->blog['keywords'];
+			$this->view->render(array('blog/details'),'home');
 		}
 		
+		
+		
+
+
 		//Display blog owner
 		function user($user=0)
 		{

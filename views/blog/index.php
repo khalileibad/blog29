@@ -24,6 +24,6 @@
 	<!-- ======= Blog Section ======= -->
 	<input type="hidden" id="category" value="<?php echo (!empty($this->category))?$this->category['cat_id']:"0";?>" />
 	<section id="blog_data" class="blog">
-		Blog DATA
+		
 	</section><!-- End Blog Section -->
 </main><!-- End #main -->

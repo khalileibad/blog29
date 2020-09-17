@@ -41,23 +41,6 @@
 			}
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		/**
 		* function blog_list
 		* get all blogs based on category:
@@ -140,75 +123,93 @@
 			return $ret;
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		/**
-		* function most_read_blog
-		* get last 3 blogs
+		* function blog
+		* get blogs details
 		*/
-		public function most_read_blog()
+		public function blog($blog_id)
 		{
+			$form	= new form();
+			if(empty($blog_id) || !$form->single_valid($blog_id,'Integer'))
+			{
+				return array();
+			}
+
 			$blog = array();
 			//get blog data
-			$b = $this->db->select('SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
+			$b = $this->db->select('SELECT b_id, b_title, b_desc, b_img, b_likes
+									,b_see, b_accept_date, b_blog, b_keywords
 									,b_user, staff_name, staff_phone, staff_email, staff_img
+									,staff_twitter, staff_face, staff_instagram,staff_linked
 									FROM '.DB_PREFEX.'blog 
 									JOIN '.DB_PREFEX.'staff ON b_user = staff_id
-									WHERE b_accept_date IS NOT NULL 
-									ORDER BY b_see DESC
-									LIMIT 3
-									',array());
-			foreach($b as $val)
+									WHERE b_accept_date IS NOT NULL AND b_id = :ID
+									',array(':ID'=>$blog_id));
+			if(count($b) != 1)
 			{
-				$x = array('id'			=>$val['b_id'],
-							'title'		=>$val['b_title'],
-							'desc'		=>$val['b_desc'],
-							'img'		=>$val['b_img'],
-							'likes'		=>$val['b_likes'],
-							'b_see'		=>$val['b_see'],
-							'publish'	=>$val['b_accept_date'],
-							'user'		=>$val['b_user'],
-							'name'		=>$val['staff_name'],
-							'phone'		=>$val['staff_phone'],
-							'email'		=>$val['staff_email'],
-							'user_img'	=>$val['staff_img'],
-							'cat'		=>array()
-							);
-				//get blog category
-				$cat = $this->db->select('SELECT cat_id, cat_name,comment,cat_class
+				return array();
+			}
+			
+			//set blog see count
+			if(!cookies::get('blog_'.$b[0]['b_id']))
+			{
+				//first visit
+				$b[0]['b_see'] += 1;
+				$this->db->update('blog',array('b_see'=>$b[0]['b_see']),'b_id = '.$b[0]['b_id']);
+				cookies::set('blog_'.$b[0]['b_id'],time());
+			}
+			
+			$blog = array('id'			=>$b[0]['b_id'],
+						'title'			=>$b[0]['b_title'],
+						'desc'			=>$b[0]['b_desc'],
+						'text'			=>$b[0]['b_blog'],
+						'img'			=>$b[0]['b_img'],
+						'likes'			=>$b[0]['b_likes'],
+						'b_see'			=>$b[0]['b_see'],
+						'publish'		=>$b[0]['b_accept_date'],
+						'user'			=>$b[0]['b_user'],
+						'name'			=>$b[0]['staff_name'],
+						'phone'			=>$b[0]['staff_phone'],
+						'email'			=>$b[0]['staff_email'],
+						'user_img'		=>$b[0]['staff_img'],
+						'user_face'		=>$b[0]['staff_face'],
+						'user_twitter'	=>$b[0]['staff_twitter'],
+						'user_instegram'=>$b[0]['staff_instagram'],
+						'user_linked'	=>$b[0]['staff_linked'],
+						'keywords'	=>$b[0]['b_keywords'],
+						'cat'		=>array(),
+						'comment'	=>array()
+						);
+			
+			//get blog category
+			$cat = $this->db->select('SELECT cat_id, cat_name,comment,cat_class
 									FROM '.DB_PREFEX.'blog_category 
 									JOIN '.DB_PREFEX.'category ON category = cat_id
 									WHERE blog_id = :ID 
-									',array(':ID'=>$val['b_id']));
-				foreach($cat as $value)
-				{
-					array_push($x['cat'],array('id'=>$value['cat_id']
+									',array(':ID'=>$b[0]['b_id']));
+			foreach($cat as $value)
+			{
+				array_push($blog['cat'],array('id'=>$value['cat_id']
 											,'name'=>$value['cat_name']
 											,'class'=>$value['cat_class']
 											,'comm'=>$value['comment']));
-				}
-				array_push($blog,$x);
+			}
+			
+			//get blog comments
+			$comm = $this->db->select('SELECT com_id, com_aut_name, com_aut_phone,com_aut_email
+									,com_likes,com_comment,create_at
+									FROM '.DB_PREFEX.'comments 
+									WHERE com_blog = :ID AND accept_by IS NOT NULL
+									',array(':ID'=>$b[0]['b_id']));
+			foreach($comm as $value)
+			{
+				array_push($blog['comment'],array('id'=>$value['com_id']
+											,'name'=>$value['com_aut_name']
+											,'phone'=>$value['com_aut_phone']
+											,'email'=>$value['com_aut_email']
+											,'like'=>$value['com_likes']
+											,'date'=>$value['create_at']
+											,'comm'=>$value['com_comment']));
 			}
 			return $blog;
 		}
