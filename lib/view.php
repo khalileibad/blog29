@@ -95,7 +95,18 @@
 		*/
 		public function get_header($class)
 		{
-			require("views/header/header.php");
+			switch($class)
+			{
+				case 'home':
+				default:
+					require("views/header/header.php");
+				break;
+				case 'login':
+					require("views/headers/login.php");
+				break;
+				
+			}
+			
 			$this->get_menus($class);
 		}
 		
@@ -139,7 +150,18 @@
 		*/
 		public function get_footer($class)
 		{
-			require("views/footer/footer.php");
+			switch($class)
+			{
+				case 'home':
+				default:
+					require("views/footer/footer.php");
+				break;
+				case 'login':
+					require("views/footers/login.php");
+				break;
+				
+			}
+			
 		}
 		
 		
