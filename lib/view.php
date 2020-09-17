@@ -95,7 +95,7 @@
 		*/
 		public function get_header($class)
 		{
-			require("views/header.php");
+			require("views/header/header.php");
 			$this->get_menus($class);
 		}
 		
@@ -139,7 +139,7 @@
 		*/
 		public function get_footer($class)
 		{
-			require("views/footer.php");
+			require("views/footer/footer.php");
 		}
 		
 		

@@ -214,6 +214,98 @@
 			return $blog;
 		}
 		
+		/**
+		* function blog_like
+		* add like to blog
+		*/
+		public function blog_like($blog_id)
+		{
+			$form	= new form();
+			if(empty($blog_id) || !$form->single_valid($blog_id,'Integer'))
+			{
+				return array();
+			}
+
+			//get blog data
+			$b = $this->db->select('SELECT b_id, b_likes ,b_see 
+									FROM '.DB_PREFEX.'blog 
+									WHERE b_accept_date IS NOT NULL AND b_id = :ID
+									',array(':ID'=>$blog_id));
+			if(count($b) != 1)
+			{
+				return array();
+			}
+			
+			if(!cookies::get('blog_like_'.$b[0]['b_id']))
+			{
+				//first visit
+				$b[0]['b_likes'] += 1;
+				$this->db->update('blog',array('b_likes'=>$b[0]['b_likes']),'b_id = '.$b[0]['b_id']);
+				cookies::set('blog_like_'.$b[0]['b_id'],time());
+				
+				return array('like'=>$b[0]['b_likes']);
+			}
+			return array();
+		}
+		
+		/**
+		* function comment
+		* save blog comment
+		* AJAX
+		*/
+		public function comment()
+		{
+			$time	= dates::convert_to_date('now');
+			$time	= dates::convert_to_string($time);
+			$form	= new form();
+			
+			$form	->post('blog_id')
+					->valid('Integer')
+					
+					->post('name')
+					->valid('Min_Length',1)
+					
+					->post('email')
+					->valid('Email')
+					
+					->post('message')
+					->valid('Min_Length',10)
+					
+					->submit();
+			$fdata	= $form->fetch();
+			
+			if(!empty($fdata['MSG']))
+			{
+				return array('Error'=>$fdata['MSG']);
+			}
+			
+			//check blog id
+			$b = $this->db->select('SELECT b_id, b_likes ,b_see 
+									FROM '.DB_PREFEX.'blog 
+									WHERE b_accept_date IS NOT NULL AND b_id = :ID
+									',array(':ID'=>$fdata['blog_id']));
+			if(count($b) != 1)
+			{
+				return array('Error'=>"Blog Not Found");
+			}
+			//insert
+			/*
+			SELECT `com_id`, ``, ``, `com_aut_phone`, ``, ``, 
+			`com_likes`, ``, `accept_by`, `accept_at` FROM `` WHERE 1
+			*/
+			$user_array = array('com_blog'		=>$fdata['blog_id']
+								,'com_aut_name'	=>$fdata['name']
+								,'com_aut_email'=>$fdata['email']
+								,'com_comment'	=>$fdata['message']
+								,'create_at'	=>$time
+								);
+				
+			$this->db->insert(DB_PREFEX.'comments',$user_array);
+			$gr_dr = $this->db->LastInsertedId();
+				
+			return array('ok'=>$gr_dr);
+			
+		}
 		
 		
 	}

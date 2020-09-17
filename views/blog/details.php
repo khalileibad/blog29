@@ -26,10 +26,10 @@
 						</h2>
 						<div class="entry-meta">
 							<ul>
-								<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="<?php echo URL."blog/user/".$this->blog['user']?>"><?php echo $this->blog['name']?></a></li>
-								<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a><time datetime="<?php echo $this->blog['publish']?>"><?php echo $this->blog['publish']?></time></a></li>
-								<li class="d-flex align-items-center"><i class="icofont-like"></i> <a><?php echo $this->blog['likes']?></a></li>
-								<li class="d-flex align-items-center"><i class="icofont-eye"></i> <a><?php echo $this->blog['b_see']?></a></li>
+								<li class="d-flex align-items-center"><a href="<?php echo URL."blog/user/".$this->blog['user']?>"><i class="icofont-user"></i> <?php echo $this->blog['name']?></a></li>
+								<li class="d-flex align-items-center"><a><i class="icofont-wall-clock"></i> <time datetime="<?php echo $this->blog['publish']?>"><?php echo $this->blog['publish']?></time></a></li>
+								<li class="d-flex align-items-center"><a id="add_like"><i class="icofont-like"></i> <i id="like_count"><?php echo $this->blog['likes']?></i></a></li>
+								<li class="d-flex align-items-center"><a><i class="icofont-eye"></i> <?php echo $this->blog['b_see']?></a></li>
 								<li class="d-flex align-items-center"><a href="#blog-comments"><i class="icofont-comment"></i><?php echo count($this->blog['comment'])?> </a></li>
 							</ul>
 						</div>
@@ -99,11 +99,22 @@
 							
 						<div class="reply-form">
 							<h4>اترك تعليقاَ</h4>
-							<form action="">
-								<div class="row">
-									<div class="col form-group">
-										<textarea name="comment" class="form-control" placeholder="التعليق *"></textarea>
+							<form id="blog_comment" method="post" role="form" class="php-form">
+								<input type="hidden" class="hid_info" name="csrf" id="csrf" value="<?php echo session::get('csrf'); ?>" />
+								<input type="hidden" id="blog_id" name="blog_id" value="<?php echo $this->blog['id']?>" />
+								<div class="form-row">
+									<div class="col-md-6 form-group">
+										<input type="text" name="name" class="form-control" id="name" placeholder="الاسم" data-rule="minlen:4" data-msg="من فضلك ادخل 4 خروق على الاقل" />
+										<div class="validate"></div>
 									</div>
+									<div class="col-md-6 form-group">
+										<input type="email" class="form-control" name="email" id="email" placeholder="البريد الإلكترونى" data-rule="email" data-msg="من فضلك ادخل بريد الإلكترونى صحيح" />
+										<div class="validate"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<textarea class="form-control" name="message" rows="2" data-rule="required" data-msg="Please write something for us" placeholder="التعليق *"></textarea>
+									<div class="validate"></div>
 								</div>
 								<button type="submit" class="btn btn-primary">ارسل التعليق</button>
 							</form>
@@ -129,3 +140,23 @@
 		</div>
 	</section><!-- End Blog Section -->
 </main><!-- End #main -->
+
+<!-- Modal For contact -->
+<div id="comm_ok" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">اتصل بنا</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>تم ارسال رسالتك بنجاح .. شكراَ!, سيتم مراجعتها من قبل ادارة النظام ثم عرضها</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+			</div>
+		</div>
+	</div>
+</div>	

@@ -47,8 +47,20 @@
 			$this->view->render(array('blog/details'),'home');
 		}
 		
+		//blog_likes
+		function blog_like($blog=0)
+		{
+			echo json_encode($this->model->blog_like($blog));
+		}
 		
-		
+		//comment
+		function comment()
+		{
+			echo json_encode($this->model->comment());
+		}
+
+
+
 
 
 		//Display blog owner
@@ -58,17 +70,8 @@
 			$this->view->render(array('blog/contact'),'home');
 		}
 		
-		//likes
-		function like()
-		{
-			echo json_encode($this->model->new_cont());
-		}
 		
-		//comment
-		function comment()
-		{
-			echo json_encode($this->model->new_cont());
-		}
+		
 		
 	}
 ?>

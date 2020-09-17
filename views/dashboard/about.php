@@ -33,10 +33,6 @@
 			<?php
 				foreach($this->staff as $val)
 				{
-					/*SELECT staff_id, , , staff_email, staff_address
-									,, 
-									,, , ,  
-									*/
 			?>
 				<div class="col-lg-6 mb-3">
 					<div class="member d-flex align-items-start">
