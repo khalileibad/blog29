@@ -51,7 +51,7 @@
 									,staff_email, staff_pass, staff_active
 									FROM ".DB_PREFEX."staff 
 									WHERE 
-									staff_uname = :login" ,
+									staff_email = :login" ,
 									array(':login'=>$req['usrname'])
 								);
 			
@@ -104,7 +104,7 @@
 			
 			if(count($data) != 1)
 			{
-				return $this->forget_house_req($req);
+				return array('Error'=>"In Field usrname: Not Found");
 			}
 			$data = $data[0];
 			
@@ -118,44 +118,6 @@
 			//send Email:
 			Email::forget($data['staff_full_name'],$data['staff_email'],$id,$time);
 			return array('ok'=>1);
-		}
-		
-		/**
-		* function forget_request
-		* create Forget Password reset link
-		*/
-		public function forget_house_req($req)
-		{
-			$time	= dates::convert_to_date('now');
-			$time	= dates::convert_to_string($time);
-			
-			//SELECT`, `create_by`, `update_at`, `update_by` FROM `kb9_` WHERE 1
-			$data = $this->db->select("SELECT 
-									h_id, h_email
-									,peo_name, peo_name_EN
-									FROM ".DB_PREFEX."house 
-									JOIN ".DB_PREFEX."people ON peo_house = h_id AND peo_main = 1
-									WHERE 
-									h_email = :login " ,
-									array(':login'=>$req['usrname'])
-								);
-			
-			if(count($data) != 1)
-			{
-				return array('Error'=>"In Field usrname: Not Found");
-			}
-			$data = $data[0];
-			
-			//insert
-			$user_array = array('for_house'	=>$data['pa_id']
-								,'create_at'=>$time
-								);
-			$this->db->insert(DB_PREFEX.'forget',$user_array);
-			$id = $this->db->LastInsertedId();
-			
-			//send Email:
-			Email::forget($data['peo_name'],$data['h_email'],$id,$time);
-			return array("ok"=>1);
 		}
 		
 		/**
@@ -263,31 +225,21 @@
 			$time	= dates::convert_to_string($time);
 			
 			$form = new form();
-			$form	->post('reg_name')
+			$form	->post('name')
 					->valid('Min_Length',2)
 					->valid('Max_Length',90)
 					
-					->post('reg_land')
-					->valid('Int_max',MAX_HOME_NO)
-					->valid('Int_min',MIN_HOME_NO)
-					
-					->post('reg_card',false,true)
-					->valid('Integer')
-					
-					->post('reg_status')
-					->valid('In_Array',array_keys(kb9::$house_live_type))
-					
-					->post('reg_email')
-					->valid('Email')
-					
-					->post('reg_phone')
+					->post('phone')
 					->valid('Phone')
 					
-					->post('reg_pass')
+					->post('email')
+					->valid('Email')
+					
+					->post('pwd')
 					->valid('Min_Length',2)
 					->valid('Max_Length',90)
 					
-					->post('reg_conf_pass')
+					->post('pwd2')
 					->valid('Min_Length',2)
 					->valid('Max_Length',90)
 					
@@ -310,106 +262,53 @@
 			}
 			
 			//check password
-			if($req['reg_pass']!= $req['reg_conf_pass'])
+			if($req['pwd']!= $req['pwd2'])
 			{
-				return array('Error'=>"In Field reg_conf_pass : not match .. \n");
+				return array('Error'=>"In Field pwd2 : not match .. \n");
 			}
 			
 			//check EMAIL ,phone ,card in reqest table
-			$em = $this->db->select("SELECT req_id ,req_land,req_card ,req_email ,req_phone
-									FROM ".DB_PREFEX."reg_request 
-									WHERE req_email = :EMAIL 
-										OR req_phone = :PHONE
-										OR req_card = :CARD"
-									,array(':EMAIL'=>$req['reg_email']
-											,':CARD'=>$req['reg_card']
-											,':PHONE'=>$req['reg_phone']));
+			$em = $this->db->select("SELECT staff_id ,staff_phone,staff_email
+									FROM ".DB_PREFEX."staff 
+									WHERE staff_email = :EMAIL 
+										OR staff_phone = :PHONE"
+									,array(':EMAIL'=>$req['email']
+											,':PHONE'=>$req['phone']));
 			if(count($em) != 0)
 			{
 				$err = "";
 				foreach($em as $val)
 				{
-					if($val['req_email'] == $req['reg_email'])
+					if($val['staff_email'] == $req['email'])
 					{
-						$err .= "In Field reg_email : Duplicate .. \n";
+						$err .= "In Field email : Duplicate .. \n";
 					}
-					if($val['req_phone'] == $req['reg_phone'])
+					if($val['staff_phone'] == $req['phone'])
 					{
-						$err .= "In Field reg_phone : Duplicate .. \n";
-					}
-					if($val['req_card'] == $req['reg_card'])
-					{
-						$err .= "In Field reg_card : Duplicate .. \n";
-					}
-				}
-				return array('Error'=>$err);
-			}
-			
-			//check EMAIL , CARD in House
-			$em = $this->db->select("SELECT h_id, h_card , h_email
-										FROM ".DB_PREFEX."house
-										WHERE h_card = :CARD OR h_email = :EMAIL" ,
-									array(':EMAIL'=>$req['reg_email']
-											,':CARD'=>$req['reg_card']));
-			if(count($em)!= 0)
-			{
-				$err = "";
-				foreach($em as $val)
-				{
-					if($val['h_email'] == $req['reg_email'])
-					{
-						$err .= "In Field reg_email : Duplicate .. \n";
-					}
-					if($val['h_card'] == $req['reg_card'])
-					{
-						$err .= "In Field reg_card : Duplicate .. \n";
-					}
-				}
-				return array('Error'=>$err);
-			}
-			
-			//check EMAIL , phone in people
-			$em = $this->db->select("SELECT peo_id, peo_phone , peo_email
-										FROM ".DB_PREFEX."people
-										WHERE peo_phone = :PHONE OR peo_email = :EMAIL" ,
-									array(':EMAIL'=>$req['reg_email']
-											,':PHONE'=>$req['reg_phone']));
-			if(count($em)!= 0)
-			{
-				$err = "";
-				foreach($em as $val)
-				{
-					if($val['peo_email'] == $req['reg_email'])
-					{
-						$err .= "In Field reg_email : Duplicate .. \n";
-					}
-					if($val['peo_phone'] == $req['reg_phone'])
-					{
-						$err .= "In Field reg_phone : Duplicate .. \n";
+						$err .= "In Field phone : Duplicate .. \n";
 					}
 				}
 				return array('Error'=>$err);
 			}
 			
 			//insert
-			$user_array = array('req_name'			=>$req['reg_name']
-								,'req_land'			=>$req['reg_land']
-								,'req_card'			=>$req['reg_card']
-								,'req_home_status'	=>$req['reg_status']
-								,'req_email'		=>$req['reg_email']
-								,'req_phone'		=>$req['reg_phone']
-								,'req_pass'			=>Hash::create(HASH_FUN,$req['reg_pass'],HASH_PASSWORD_KEY)
+			$user_array = array('staff_name'		=>$req['name']
+								,'staff_email'		=>$req['email']
+								,'staff_phone'		=>$req['phone']
+								,'staff_type'		=>"bloger"
+								,'staff_pass'		=>Hash::create(HASH_FUN,$req['pwd'],HASH_PASSWORD_KEY)
 								,'create_at'		=>$time
 								);
 				
-			$this->db->insert(DB_PREFEX.'reg_request',$user_array);
-				
+			$this->db->insert(DB_PREFEX.'staff',$user_array);
+			
+			// 	
 			$id = $this->db->LastInsertedId();
 			unset($user_array['req_pass']);
-			$user_array['id'] = $id;
-			kb9::save_notification($this->db, $user_array,2);
-			Email::welcome_reg($req['reg_name'],$req['reg_email']);
-			return array('ok'=>$id);
+			$user_array['staff_img'] = "user.jpg";
+			$user_array['staff_id'] = $id;
+			Email::welcome_reg($req['name'],$req['email']);
+			return $user_array;
 		}
 		
 		

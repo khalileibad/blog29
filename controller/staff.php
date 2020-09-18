@@ -19,6 +19,7 @@
 		//Display user window
 		function index()
 		{
+			die('Admin ... <a href="'.URL.'login/logout">logout</a> ' );
 			$this->view->render(array('staff/index'));
 		}
 		
