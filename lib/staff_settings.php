@@ -33,7 +33,7 @@
 																		,'get_noti','get_dr_noti','read_noti')
 												);
 		
-		private $accept_pages 			= array('home'			=> array('index','new_people'
+		private $accept_pages 			= array('accept'		=> array('index','new_people'
 																		,'upd_land','upd_house'
 																		,'peo_info','work_info','new_worker'
 																		,'upd_people','upd_worker'
@@ -52,7 +52,7 @@
 											);
 		
 		private static $default_page 	= array('admin' 	=> 'staff'
-												,'accept' 	=> 'home'
+												,'accept' 	=> 'accept'
 												,'bloger' 	=> 'home'
 												
 											);

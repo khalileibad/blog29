@@ -12,7 +12,6 @@
 		function __construct()
 		{
 			parent::__construct();
-			$this->view->languages();
 			$this->view->CSS = array();
 			$this->view->JS = array('views/home/JS/home.js');
 		}
@@ -20,6 +19,7 @@
 		//Display home window
 		function index()
 		{
+			die('Bloger ... <a href="'.URL.'login/logout">logout</a> ' );
 			$this->view->info 	= $this->model->info();
 			$this->view->render(array('home/index'));
 		}

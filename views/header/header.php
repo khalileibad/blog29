@@ -11,6 +11,7 @@
 	<link href="<?php echo URL ?>public/vendor/icofont/icofont.min.css" rel="stylesheet">
 	<link href="<?php echo URL ?>public/vendor/animate.css/animate.min.css" rel="stylesheet">
 	<link href="<?php echo URL ?>public/CSS/style.css" rel="stylesheet">
+	
 	<?php
 		if(isset($this->CSS))
 		{

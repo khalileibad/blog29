@@ -11,6 +11,15 @@
 		}
 		
 		/**
+		* function menu
+		* get menu
+		*/
+		public function menu()
+		{
+			return $this->db->get_menu();
+		}
+		
+		/**
 		* function login
 		* get login user date
 		*/
@@ -37,19 +46,19 @@
 			}
 			
 			$data = $this->db->select("SELECT 
-									staID, staff_full_name, staff_full_name_en
+									staff_id, staff_name 
 									,staff_type, staff_img
 									,staff_email, staff_pass, staff_active
 									FROM ".DB_PREFEX."staff 
 									WHERE 
-									staff_email = :login" ,
+									staff_uname = :login" ,
 									array(':login'=>$req['usrname'])
 								);
 			
 			
 			if(count($data) != 1 || $data[0]['staff_pass'] != Hash::create(HASH_FUN,$req['psw'],HASH_PASSWORD_KEY))
 			{
-				return $this->home_login($req['usrname'],$req['psw']);
+				return "INPUT_ERROR";
 			}
 			if($data[0]['staff_active'] != 1)
 			{
@@ -59,25 +68,6 @@
 			return $data[0];
 		}
 		
-		public function home_login($uname,$pass)
-		{
-			$data = $this->db->select("SELECT 
-									h_id, h_email, h_pass
-									,peo_name, peo_name_EN
-									FROM ".DB_PREFEX."house 
-									JOIN ".DB_PREFEX."people ON peo_house = h_id AND peo_main = 1
-									WHERE 
-									h_email = :login" ,
-									array(':login'=>$uname)
-								);
-			if(count($data) != 1 || $data[0]['h_pass'] != Hash::create(HASH_FUN,$pass,HASH_PASSWORD_KEY))
-			{
-				return "INPUT_ERROR";
-			}
-			$data = $data[0];
-			
-			return $data;
-		}
 		
 		/**
 		* function forget_request

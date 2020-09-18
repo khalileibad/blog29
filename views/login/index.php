@@ -1,13 +1,3 @@
-<!-- ======= Top Bar ======= -->
-<section id="topbar" class="d-none d-lg-block">
-	<div class="container d-flex">
-		<div class="contact-info mr-auto">
-			<i class="icofont-sign-in"></i><a href="login.html">دخول</a>
-			<i class="icofont-user"></i><a href="register.html">تسجيل</a>
-		</div>
-	</div>
-</section>
-	
 <main id="main">
 	<!-- ======= Breadcrumbs ======= -->
 	<section id="breadcrumbs" class="breadcrumbs">
@@ -15,7 +5,7 @@
 			<div class="d-flex justify-content-between align-items-center">
 				<h2>تسجيل دخول</h2>
 				<ol>
-					<li><a href="index.html">الرئيسية</a></li>
+					<li><a href="<?php echo URL?>">الرئيسية</a></li>
 					<li>تسجيل دخول</li>
 				</ol>
 			</div>
@@ -29,6 +19,7 @@
 			<div class="row mt-5 d-flex justify-content-center">
 				<div class="col-lg-4 mt-5 mt-lg-0">
 					<form action="<?php echo URL?>login/login" method="post" role="form" class="php-form">
+						<input type="hidden" class="hid_info" name="csrf" id="csrf" value="0" />
 						<div class="form-row">							
 							<input type="email" class="form-control" name="usrname" id="email" placeholder="البريد الإلكترونى" data-rule="email" data-msg="من فضلك ادخل بريد الإلكترونى صحيح" />
 							<div class="validate"></div>
@@ -49,4 +40,34 @@
 		</div>
 	</section><!-- End Contact Section -->
 </main><!-- End #main -->
+
+
+<!-- Model For Errors -->
+<div id="error_msg" class="d-none"><?php echo (!empty($this->MSG))?$this->MSG:"";?></div>
+<div id="err_INPUT_ERROR" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<p>إسم المستخدم و/ أو كلمة المرور خطأ</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Model For Errors -->
+<div id="err_UNACTIVE" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<p>لقد تم إيقاف حسابك</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+			</div>
+		</div>
+	</div>
+</div>
   	

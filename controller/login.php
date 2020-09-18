@@ -21,7 +21,8 @@
 				header('location:'.URL.$default_page);
 			}else
 			{
-				$this->view->render(array('login/index'),'login');
+				$this->view->menu 			= $this->model->menu();
+				$this->view->render(array('login/index'),'home');
 			}
 		}
 		
@@ -31,31 +32,14 @@
 			
 			if($data != null && is_array($data))
 			{
-				$ok = false;
-				if(isset($data['h_id']))
+				if(!empty($data['staff_id']))
 				{
-					//home
-					session::set('user_id'		,$data['h_id']);
-					session::set('user_name'	,$data['peo_name']);
-					session::set('user_name_EN'	,$data['peo_name_EN']);
-					session::set('user_email'	,$data['h_email']);
-					session::set('user_type'	,'home');
-					
-					$data['staff_type'] = 'home';
-					$ok = true;
-				}elseif(!empty($data['staID']))
-				{
-					session::set('user_id'		,$data['staID']);
-					session::set('user_name'	,$data['staff_full_name']);
-					session::set('user_name_EN'	,$data['staff_full_name_en']);
+					session::set('user_id'		,$data['staff_id']);
+					session::set('user_name'	,$data['staff_name']);
 					session::set('user_email'	,$data['staff_email']);
 					session::set('user_type'	,$data['staff_type']);
 					session::set('user_img'		,$data['staff_img']);
 					
-					$ok = true;
-				}
-				if($ok)
-				{
 					$e = staff_settings::generateRandomString();
 					session::set('csrf'	,Hash::create(HASH_FUN,$e,HASH_PASSWORD_KEY));
 					session::set('CREATED'		,time());
@@ -64,10 +48,10 @@
 					die();
 				}
 			}
-			$this->view->no = (!empty($_POST['MSG']))?intval($_POST['MSG'])+1:1;
-			$this->view->languages(array('login'));
-			$this->view->MSG = $data;
-			$this->view->render(array('login/index'),'login');
+			$this->view->no 	= (!empty($_POST['MSG']))?intval($_POST['MSG'])+1:1;
+			$this->view->MSG 	= $data;
+			$this->view->menu 	= $this->model->menu();
+			$this->view->render(array('login/index'),'home');
 			
 		}
 		
@@ -94,7 +78,7 @@
 			}else
 			{
 				$this->view->languages(array('login'));
-				$this->view->render(array('login/forget'),'login');
+				$this->view->render(array('login/forget'),'home');
 			}
 			
 		}
@@ -123,7 +107,7 @@
 			{
 				$this->view->id = $x['for_id'];
 				$this->view->languages(array('login'));
-				$this->view->render(array('login/reset'),'login');
+				$this->view->render(array('login/reset'),'home');
 			}
 		}
 		
