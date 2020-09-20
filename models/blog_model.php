@@ -52,7 +52,7 @@
 			$where = "b_accept_date IS NOT NULL ";
 			//get bloger
 			$form	= new form();
-			if(!empty($category) || $form->single_valid($category,'Integer'))
+			if(!empty($category) && $form->single_valid($category,'Integer'))
 			{
 				$where .= "AND b_id IN (SELECT blog_id FROM ".DB_PREFEX."blog_category WHERE category = $category ) ";
 			}

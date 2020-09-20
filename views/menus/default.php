@@ -2,8 +2,19 @@
 <section id="topbar" class="d-none d-lg-block">
 	<div class="container d-flex">
 		<div class="contact-info mr-auto">
-			<i class="icofont-sign-in"></i><a href="<?php echo URL ?>login">دخول</a>
-			<i class="icofont-user"></i><a href="<?php echo URL ?>login/register">تسجيل</a>
+		<?php 
+			if(session::get('user_type'))
+			{
+		?>
+			<a href="<?php echo URL ?>login/logout"><i class="icofont-sign-out"></i> خروج </a>
+		<?php
+			}else{
+		?>
+			<a href="<?php echo URL ?>login"><i class="icofont-sign-in"></i> دخول</a>
+			<a href="<?php echo URL ?>login/register"><i class="icofont-user"></i>تسجيل</a>
+		<?php
+			}
+		?>
 		</div>
 	</div>
 </section>
@@ -18,8 +29,22 @@
 
 		<nav class="nav-menu d-none mr-auto d-lg-block">
 			<ul>
-				<li><a href="<?php echo URL ?>">الرئيسية</a></li>
-				<li><a href="<?php echo URL ?>dashboard/about">عن 29 </a></li>
+				<li><a href="<?php echo URL ?>dashboard/">الرئيسية</a></li>
+			<?php
+				if(session::get('user_type'))
+				{
+					switch(session::get('user_type'))
+					{
+						case "bloger":
+							echo '<li><a href="'.URL.'home/">صفحتي </a></li>';
+						break;
+						case "accept":
+						break;
+						case "admin":
+						break;
+					}
+				}
+			?>
 				<li><a href="<?php echo URL ?>blog/index">التدوينات</a></li>
 			<?php
 				foreach($this->menu as $val)
@@ -36,6 +61,7 @@
 						<li><a href="#">تصنيف 1</a></li>
 					</ul>
 				</li-->
+				<li><a href="<?php echo URL ?>dashboard/about">عن 29 </a></li>
 				<li><a href="<?php echo URL ?>dashboard/contact">اتصل بنا</a></li>
 			</ul>
 		</nav><!-- .nav-menu -->

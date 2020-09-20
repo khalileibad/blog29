@@ -95,7 +95,8 @@
 		*/
 		public function get_header($class)
 		{
-			switch($class)
+			require("views/header/header.php");
+			/*switch($class)
 			{
 				case 'home':
 				default:
@@ -105,7 +106,7 @@
 					require("views/headers/login.php");
 				break;
 				
-			}
+			}*/
 			
 			$this->get_menus($class);
 		}
@@ -115,34 +116,7 @@
 		*/
 		private function get_menus($class)
 		{
-			if(session::get('user_type'))
-			{
-				require("views/menus/".session::get('user_type').".php");
-				switch($class)
-				{
-					case 'home':
-						
-					break;
-					default:
-						
-				}
-			}elseif($class == 'login')
-			{
-				require("views/menus/bloger.php");
-				
-			}else
-			{
-				require("views/menus/bloger.php");
-				switch($class)
-				{
-					case 'home':
-						
-					break;
-					default:
-						
-				}
-			}
-			
+			require("views/menus/default.php");
 		}
 		
 		/*
@@ -150,7 +124,8 @@
 		*/
 		public function get_footer($class)
 		{
-			switch($class)
+			require("views/footer/footer.php");
+			/*switch($class)
 			{
 				case 'home':
 				default:
@@ -160,7 +135,7 @@
 					require("views/footers/login.php");
 				break;
 				
-			}
+			}*/
 			
 		}
 		

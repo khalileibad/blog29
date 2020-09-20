@@ -63,6 +63,7 @@
 							<div class="float-left share">
 								<a href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=<?php echo $share ?>" title="Share on Twitter"><i class="icofont-twitter"></i></a>
 								<a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $share ?>&amp;src=sdkpreparse" title="Share on Facebook"><i class="icofont-facebook"></i></a>
+								<a href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site <?php echo $share ?>&amp;src=sdkpreparse" title="Share on Facebook"><i class="icofont-email"></i></a>
 								<!--a href="" title="Share on Instagram"><i class="icofont-instagram"></i></a-->
 							</div>
 						</div>

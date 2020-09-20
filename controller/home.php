@@ -19,10 +19,15 @@
 		//Display home window
 		function index()
 		{
-			die('Bloger ... <a href="'.URL.'login/logout">logout</a> ' );
-			$this->view->info 	= $this->model->info();
+			$this->view->menu 		= $this->model->menu();
+			$this->view->info 		= $this->model->info();
 			$this->view->render(array('home/index'));
 		}
+		
+		
+		
+		
+		
 		
 		/**
 		* new_people

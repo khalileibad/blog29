@@ -4,7 +4,7 @@
 	define('TITLE','مدوّنة');
 	define('DESCRIPTION','مدوّنة -الحرف التاسع والعشرون- 29');
 	define('KEYWORDS','مدوّنة -الحرف التاسع والعشرون- 29');
-	define('EMAIL_ADD','info@example.com');
+	define('EMAIL_ADD','create@29content.net');
 	define('PHONE_NUM','0123456789');
 	
 	//Paths

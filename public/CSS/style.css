@@ -6,6 +6,12 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.err_notification{
+	color: red !important;
+	font-style: italic !important;
+	font-weight: bold !important;
+}
+
 @font-face{
 	font-family:'droid-sans';
 	src: url('../fonts/droid-sans.eot?#iefix');

@@ -144,7 +144,7 @@
 				if(!$this->_Data_empty_permission[$this->_currentItem]&&!$this->_Data_empty_permission[$this->_currentItem])
 				{
 					
-					$this->_error[$this->_currentItem] = "In ".$this->_currentItem.": Is Empty!..\n";
+					$this->_error[$this->_currentItem] = "Is Empty!..";
 				}
 				return $this;
 			}

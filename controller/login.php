@@ -7,7 +7,7 @@
 			parent::__construct();
 			$this->view->MSG = '';
 			//$this->view->CSS = array('views/login/CSS/login.css');
-			//$this->view->JS = array('views/login/JS/login.js');
+			$this->view->JS = array('views/login/JS/login.js');
 		}
 		
 		public function index()
@@ -92,16 +92,10 @@
 					$e = staff_settings::generateRandomString();
 					session::set('csrf'	,Hash::create(HASH_FUN,$e,HASH_PASSWORD_KEY));
 					session::set('CREATED'		,time());
-					$default_page = staff_settings::default_page($data['staff_type']);
-					header('location:'.URL.$default_page);
-					die();
+					$data = array("url"=>staff_settings::default_page($data['staff_type']));
 				}
 			}
-			print_r($data);
-			$this->view->no 	= (!empty($_POST['MSG']))?intval($_POST['MSG'])+1:1;
-			$this->view->MSG 	= $data;
-			$this->view->menu 	= $this->model->menu();
-			$this->view->render(array('login/register'),'home');
+			echo (is_array($data))?json_encode($data):$data;
 		}
 		
 		

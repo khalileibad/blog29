@@ -21,7 +21,7 @@
 									<a href="<?php echo TWITTER?>" class="twitter"><i class="icofont-twitter"></i></a>
 									<a href="<?php echo FACE?>" class="facebook"><i class="icofont-facebook"></i></a>
 									<a href="<?php echo INSTAGRAM?>" class="instagram"><i class="icofont-instagram"></i></a>
-									<a href="<?php echo GOOGLE?>" class="google-plus"><i class="icofont-skype"></i></a>
+									<a href="<?php echo GOOGLE?>" class="google-plus"><i class="icofont-google-plus"></i></a>
 									<a href="<?php echo LINKEDIN?>" class="linkedin"><i class="icofont-linkedin"></i></a>
 								</div>
 							</div>
@@ -37,8 +37,8 @@
 						<div class="col-lg-2 col-md-6 footer-links">
 							<h4>الزوار</h4>
 							<ul>
-								<li><i class="icofont-users"></i>  عدد الزوار <?php echo session::get('NEW_VISIT')?></li>
-								<li><i class="icofont-world"></i>  عدد الزيارات <?php echo session::get('VISIT')?></li>
+								<li><i class="icofont-users"></i>&nbsp;  عدد الزوار <?php echo session::get('NEW_VISIT')?></li>
+								<li><i class="icofont-world"></i>&nbsp;  عدد الزيارات <?php echo session::get('VISIT')?></li>
 							</ul>
 						</div>
 						<div class="col-lg-4 col-md-6 footer-newsletter">
@@ -53,7 +53,7 @@
 			</div>
 			<div class="container">
 				<div class="copyright">
-					&copy; كل الحقوق محفوظة 2020
+					&copy; كل الحقوق محفوظة <?php echo date("Y"); ?>
 				</div>
 				<!--div class="credits">
 					Designed by <a href="https://maknorsoft.com/">maknorsoft</a>

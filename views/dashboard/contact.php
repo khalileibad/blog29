@@ -23,11 +23,11 @@
 							<h4>البريد الإلكترونى:</h4>
 							<p><?php echo EMAIL_ADD?></p>
 						</div>
-						<div class="phone">
+						<!--div class="phone">
 							<i class="icofont-phone"></i>
 							<h4>للاتصال:</h4>
 							<p><?php echo PHONE_NUM?></p>
-						</div>
+						</div-->
 					</div>
 				</div>
 				
