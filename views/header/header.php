@@ -13,6 +13,13 @@
 	<link href="<?php echo URL ?>public/CSS/style.css" rel="stylesheet">
 	
 	<?php
+		if(isset($this->EXT_CSS))
+		{
+			foreach($this->EXT_CSS as $v)
+			{
+				echo '<link rel="stylesheet" href="'.$v.'">';
+			}
+		}
 		if(isset($this->CSS))
 		{
 			foreach($this->CSS as $v)
@@ -20,6 +27,7 @@
 				echo '<link rel="stylesheet" href="'.URL.$v.'">';
 			}
 		}
+		
 	?>
 </head>
 <body>

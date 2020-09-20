@@ -42,7 +42,7 @@
 												
 											);
 		
-		private $bloger_pages 			= array('home'			=> array('index','new_people'
+		private $bloger_pages 			= array('home'			=> array('index','blog_list'
 																		,'upd_land','upd_house'
 																		,'peo_info','work_info','new_worker'
 																		,'upd_people','upd_worker'

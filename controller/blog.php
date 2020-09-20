@@ -13,7 +13,7 @@
 		{
 			parent::__construct();
 			$this->view->CSS = array();
-			$this->view->JS = array('views/blog/JS/blog.js');
+			$this->view->JS = array('public/JS/paging.js','views/blog/JS/blog.js');
 			
 		}
 		

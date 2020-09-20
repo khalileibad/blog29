@@ -13,17 +13,31 @@
 		{
 			parent::__construct();
 			$this->view->CSS = array();
-			$this->view->JS = array('views/home/JS/home.js');
+			$this->view->JS = array('public/JS/paging.js','views/home/JS/home.js');
 		}
 		
 		//Display home window
 		function index()
 		{
+			$this->view->EXT_CSS 	= array("https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+											,"https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+											);
+			$this->view->EXT_JS 	= array("https://code.jquery.com/jquery-3.5.1.min.js"
+											,"https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+											,"https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"
+											);
+			
 			$this->view->menu 		= $this->model->menu();
 			$this->view->info 		= $this->model->info();
 			$this->view->render(array('home/index'));
 		}
 		
+		//Display blog window
+		function blog_list($page_no=1)
+		{
+			$this->view->blog_list 		= $this->model->blog_list($page_no);
+			$this->view->js_render('home/AJAX/blog');
+		}
 		
 		
 		

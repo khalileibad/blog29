@@ -76,6 +76,13 @@
 		<script src="<?php echo URL?>public/JS/main.js"></script>
 		<script src="<?php echo URL?>public/JS/default.js"></script>
 		<?php
+			if(isset($this->EXT_JS))
+			{
+				foreach($this->EXT_JS as $v)
+				{
+					echo '<script src="'.$v.'"></script>';
+				}
+			}
 			if(isset($this->JS))
 			{
 				foreach($this->JS as $v)
@@ -83,6 +90,7 @@
 					echo '<script src="'.URL.$v.'"></script>';
 				}
 			}
+			
 		?>
 	</body>
 </html>

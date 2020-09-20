@@ -22,15 +22,15 @@
 			<br/>
 			<nav>
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<a class="nav-item nav-link active" id="nav-add-blog" data-toggle="tab" href="#nav-add" role="tab" aria-controls="nav-add" aria-selected="true">إضافة تدوينة جديدة</a>
+					<a class="nav-item nav-link" id="nav-add-blog" data-toggle="tab" href="#nav-add" role="tab" aria-controls="nav-add" aria-selected="true">إضافة تدوينة جديدة</a>
 					<a class="nav-item nav-link" id="nav-blog-view" data-toggle="tab" href="#nav-blog" role="tab" aria-controls="nav-blog" aria-selected="false">التدوينات</a>
-					<a class="nav-item nav-link" id="nav-edit-profile" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">تعديل البيانات الشخصية</a>
+					<a class="nav-item nav-link active" id="nav-edit-profile" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">تعديل البيانات الشخصية</a>
 				</div>
 			</nav>
 			
 			<div class="tab-content" id="nav-tabContent">
 				<!-- =============== New Blog ============== -->
-				<div class="tab-pane fade show active" id="nav-add" role="tabpanel" aria-labelledby="nav-add-blog">
+				<div class="tab-pane fade show" id="nav-add" role="tabpanel" aria-labelledby="nav-add-blog">
 					<section id="contact" class="contact border">
 						<div class="container">
 							<div class="row">
@@ -57,7 +57,7 @@
 										<div class="form-row">
 											<div class="col-md-12 form-group">
 												<label for="content">المحتوى</label>
-												<textarea class="form-control" name="message" rows="15" data-rule="required" data-msg="من فضلك اكتب المحتوى" placeholder="اكتب رسالتك هنا ..."></textarea>
+												<textarea class="form-control summernote" name="message" rows="15" data-rule="required" data-msg="من فضلك اكتب المحتوى" placeholder="اكتب رسالتك هنا ..."></textarea>
 												<div class="validate"></div>
 											</div>
 										</div>
@@ -106,99 +106,14 @@
 				
 				<!-- =============== MY Blog ============== -->
 				<div class="tab-pane fade" id="nav-blog" role="tabpanel" aria-labelledby="nav-blog-view">
-					<section id="blog" class="blog border">
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-									<article class="entry">
-										<div class="entry-img">
-											<img src="assets/img/blog-1.jpg" alt="" class="img-fluid">
-										</div>
-										<h2 class="entry-title">
-											<a href="blog-single.html">حول الهوية السودانية</a>
-										</h2>
-										<div class="entry-meta">
-											<ul>
-												<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="blog-single.html">رنا  مروان</a></li>
-												<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="2020-08-22">اغسطس 22, 2020</time></a></li>
-											</ul>
-										</div>
-										<div class="entry-content">
-											<p>
-												اقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيد.
-											</p>
-											<div class="read-more">
-												<a href="blog-single.html">اقراء المزيد </a>
-											</div>
-										</div>
-									</article><!-- End blog entry -->
-								</div>
-								<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-									<article class="entry">
-										<div class="entry-img">
-											<img src="assets/img/blog-1.jpg" alt="" class="img-fluid">
-										</div>
-										<h2 class="entry-title">
-											<a href="blog-single.html">حول الهوية السودانية</a>
-										</h2>
-										<div class="entry-meta">
-											<ul>
-												<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="blog-single.html">رنا  مروان</a></li>
-												<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="2020-08-22">اغسطس 22, 2020</time></a></li>
-											</ul>
-										</div>
-										<div class="entry-content">
-											<p>
-												اقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيد.
-											</p>
-											<div class="read-more">
-												<a href="blog-single.html">اقراء المزيد </a>
-											</div>
-										</div>
-									</article><!-- End blog entry -->
-								</div>
-								<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-									<article class="entry">
-										<div class="entry-img">
-											<img src="assets/img/blog-1.jpg" alt="" class="img-fluid">
-										</div>
-										<h2 class="entry-title">
-											<a href="blog-single.html">حول الهوية السودانية</a>
-										</h2>
-										<div class="entry-meta">
-											<ul>
-												<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="blog-single.html">رنا  مروان</a></li>
-												<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="2020-08-22">اغسطس 22, 2020</time></a></li>
-											</ul>
-										</div>
-										<div class="entry-content">
-											<p>
-												اقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيد.
-											</p>
-											<div class="read-more">
-												<a href="blog-single.html">اقراء المزيد </a>
-											</div>
-										</div>
-									</article><!-- End blog entry -->
-								</div>
-							</div>
-						</div>
-
-						<div class="blog-pagination" data-aos="fade-up">
-							<ul class="justify-content-center">
-								<li class="disabled"><i class="icofont-rounded-right"></i></li>
-								<li><a href="#">1</a></li>
-								<li class="active"><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="icofont-rounded-left"></i></a></li>
-							</ul>
-						</div>
+					<section id="blog_data" class="blog border">
+						
 					</section><!-- End Blog Section -->
 				</div>
 				<!-- =============== End MY Blog ============== -->	
 				
 				<!-- ======= profile edit Section ======= -->
-				<div class="tab-pane fade" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-profile">
+				<div class="tab-pane fade active" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-profile">
 					<!-- ======= profile edit Section ======= -->
 					<section id="contact" class="contact border">
 						<div class="container">
@@ -236,7 +151,14 @@
 										<div class="form-row">
 											<div class="col-md-12 form-group">
 												<label for="details">نبذة مختصرة</label>
-												<textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="اكتب رسالتك هنا ..."></textarea>
+												<textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="اكتب رسالتك هنا ..."><?php echo $this->info['about']?></textarea>
+												<div class="validate"></div>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="col-md-12 form-group">
+												<label for="details">العنوان</label>
+												<textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="اكتب رسالتك هنا ..."><?php echo $this->info['address']?></textarea>
 												<div class="validate"></div>
 											</div>
 										</div>

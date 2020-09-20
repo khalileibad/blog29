@@ -49,12 +49,49 @@
 								'blogs'			=>array(),
 								);
 			
+			return $blog_user;
+		}
+		
+		/**
+		* function blog_list
+		* get all blogs based on current user
+		*/
+		public function blog_list($page)
+		{
+			$ret = array();
+			$where = "";
+			//get bloger
+			
+			//PAGING
+			if(!empty($page) && ctype_digit($page))
+			{
+				$c = $this->db->select("SELECT count(b_id) AS a
+										FROM ".DB_PREFEX."blog
+										WHERE b_accept_date IS NOT NULL AND b_user = :USER
+										" ,array(':USER'=>session::get('user_id')));
+										
+				$pages = ceil($c[0]['a'] / PAGING);
+			
+				$ret = array('total'=> $c[0]['a'],'no_page'=>$pages,'curr'=>$page,'data'=>array());
+				
+				// Calculate the offset for the query
+				$off = ($page - 1)  * PAGING;
+			
+				$paginglimit = "LIMIT ".PAGING." OFFSET $off";
+			}else
+			{
+				$ret = array('total'=> '','no_page'=>'','curr'=>'','data'=>array());
+				$paginglimit = "";
+			}
+			
 			//get blog data
 			$b = $this->db->select("SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
+									,b_user
 									FROM ".DB_PREFEX."blog 
-									WHERE b_user = :ID AND b_accept_date IS NOT NULL
+									WHERE b_accept_date IS NOT NULL AND b_user = :USER
 									ORDER BY b_accept_date DESC
-									",array(":ID"=>session::get('user_id')));
+									$paginglimit
+									",array(':USER'=>session::get('user_id')));
 			
 			foreach($b as $val)
 			{
@@ -69,10 +106,10 @@
 							);
 				//get blog category
 				$cat = $this->db->select('SELECT cat_id, cat_name,comment,cat_class
-										FROM '.DB_PREFEX.'blog_category 
-										JOIN '.DB_PREFEX.'category ON category = cat_id
-										WHERE blog_id = :ID 
-										',array(':ID'=>$val['b_id']));
+									FROM '.DB_PREFEX.'blog_category 
+									JOIN '.DB_PREFEX.'category ON category = cat_id
+									WHERE blog_id = :ID 
+									',array(':ID'=>$val['b_id']));
 				foreach($cat as $value)
 				{
 					array_push($x['cat'],array('id'=>$value['cat_id']
@@ -80,9 +117,9 @@
 											,'class'=>$value['cat_class']
 											,'comm'=>$value['comment']));
 				}
-				array_push($blog_user['blogs'],$x);
+				array_push($ret['data'],$x);
 			}
-			return $blog_user;
+			return $ret;
 		}
 		
 		

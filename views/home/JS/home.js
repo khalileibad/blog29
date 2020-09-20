@@ -1,25 +1,39 @@
 //JS For news Actions
 $(document).ready(function(){
-	people_list();
+	blog_list();
+	$('.summernote').summernote();
+	$('#nav-add-blog').trigger('click');
+	$('#nav-add-blog').addClass('active');
+	$('#nav-edit-profile').removeClass('active');
 })
 
-//Get news List 
-function people_list()
+function paging_changes()
 {
-	if($('#people_details_info').length)
+	blog_list();
+}
+
+//Get news List 
+function blog_list()
+{
+	var page_no = 1;
+	
+	if($("#paging_curr_no").length)
 	{
-		$.post(URL+"home/peo_info",{},function(data,status,xhr){
-			$("#people_details_info").html(data);
-		})
-	}
-	if($('#worker_details_info').length)
-	{
-		$.post(URL+"home/work_info",{},function(data,status,xhr){
-			$("#worker_details_info").html(data);
-		})
+		page_no = $("#paging_curr_no").val();
 	}
 	
+	$.post(URL+"home/blog_list/"+page_no,{},function(data,status,xhr){
+		$("#blog_data").html(data);
+	})
+	
 }
+
+
+
+
+
+
+
 
 //////////////////////////////////Updating land, house Data
 //open / close tabs
