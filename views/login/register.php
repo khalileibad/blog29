@@ -12,7 +12,7 @@
 		</div>
 	</section><!-- End Breadcrumbs -->
 
-	<!-- ======= Contact Section ======= -->
+	<!-- ======= registeration Section ======= -->
 	<section id="contact" class="contact">
 		<div class="container">
 			<h2 class="text-center">التسجيل</h2>
