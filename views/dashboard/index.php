@@ -85,8 +85,8 @@
 		<br/>
 		<div class="container">
 			<div class="section-title">
-				<h2>التصنيف</h2>
-				<p>الاكثر شهرة</p>
+				<h2>الاكثر شهرة</h2>
+				<!--p>الاكثر شهرة</p-->
 			</div>
 			<div class="row">
 			<?php

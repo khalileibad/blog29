@@ -23,11 +23,18 @@
 							<h4>البريد الإلكترونى:</h4>
 							<p><?php echo EMAIL_ADD?></p>
 						</div>
-						<!--div class="phone">
-							<i class="icofont-phone"></i>
-							<h4>للاتصال:</h4>
-							<p><?php echo PHONE_NUM?></p>
-						</div-->
+						<div class="phone">
+							<i class="icofont-facebook"></i>
+						</div>
+						<div class="phone">
+							<i class="icofont-twitter"></i>
+						</div>
+						<div class="phone">
+							<i class="icofont-instagram"></i>
+						</div>
+						<div class="phone">
+							<i class="icofont-linkedin"></i>
+						</div>
 					</div>
 				</div>
 				

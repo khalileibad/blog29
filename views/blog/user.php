@@ -43,7 +43,7 @@
 							foreach($this->user['blogs'] as $val)
 							{
 						?>
-							<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+							<div class="col-lg-6 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
 								<article class="entry">
 									<div class="entry-img">
 										<img src="<?php echo URL."public/IMG/blog/".$val['img'] ?>" alt="" class="img-fluid" />
