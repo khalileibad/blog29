@@ -119,16 +119,16 @@
 						<div class="container">
 							<div class="row">
 								<div class="col-lg-12">
-									<form action="forms/contact.php" method="post" role="form" class="php-form">
+									<form action="<?php echo URL?>home/profile" method="post" role="form" enctype="multipart/form-data" class="image_form php-form">
 										<div class="form-row">
 											<div class="col-md-3 form-group">
 												<div class="text-center">
-													<img src="<?php echo URL."public/IMG/users/".$this->info['user_img'] ?>" width="120px" height="120px" class="rounded" alt="...">
+													<img id="profile_img" src="<?php echo URL."public/IMG/users/".$this->info['user_img'] ?>" width="120px" height="120px" class="rounded profile-pic form_images" alt="...">
 												</div>
 											</div>
 											<div class="col-md-9 form-group">
 												<label for="img">لتغير صورة البروفايل</label>
-												<input type="file" class="form-control-file" id="img">
+												<input type="file" name="user_img" class="file-upload image_upload form-control-file" data-id="profile_img" id="img" accept="image/*">
 											</div>
 										</div>
 										<div class="form-row">

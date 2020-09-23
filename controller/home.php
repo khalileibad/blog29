@@ -12,13 +12,16 @@
 		function __construct()
 		{
 			parent::__construct();
-			$this->view->CSS = array();
-			$this->view->JS = array('public/JS/paging.js','views/home/JS/home.js');
 		}
 		
 		//Display home window
 		function index()
 		{
+			$this->view->CSS = array();
+			$this->view->JS = array('public/JS/paging.js'
+									,'public/JS/img.js'
+									,'views/home/JS/home.js'
+									);
 			$this->view->EXT_CSS 	= array("https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
 											,"https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
 											);
@@ -39,19 +42,19 @@
 			$this->view->js_render('home/AJAX/blog');
 		}
 		
-		
-		
-		
-		
 		/**
-		* new_people
-		* add new people to house
+		* profile
+		* update profile data
 		* AJAX
 		*/
-		function new_people()
+		function profile()
 		{
-			echo json_encode($this->model->new_people());
+			echo json_encode($this->model->profile());
 		}
+		
+		
+		
+		
 		
 		/**
 		* new_worker
