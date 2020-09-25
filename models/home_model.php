@@ -67,7 +67,7 @@
 			{
 				$c = $this->db->select("SELECT count(b_id) AS a
 										FROM ".DB_PREFEX."blog
-										WHERE b_accept_date IS NOT NULL AND b_user = :USER
+										WHERE b_user = :USER
 										" ,array(':USER'=>session::get('user_id')));
 										
 				$pages = ceil($c[0]['a'] / PAGING);
@@ -86,9 +86,9 @@
 			
 			//get blog data
 			$b = $this->db->select("SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
-									,b_user
+									,b_user, create_at
 									FROM ".DB_PREFEX."blog 
-									WHERE b_accept_date IS NOT NULL AND b_user = :USER
+									WHERE b_user = :USER
 									ORDER BY b_accept_date DESC
 									$paginglimit
 									",array(':USER'=>session::get('user_id')));
@@ -102,6 +102,7 @@
 							'likes'		=>$val['b_likes'],
 							'b_see'		=>$val['b_see'],
 							'publish'	=>$val['b_accept_date'],
+							'create'	=>$val['create_at'],
 							'cat'		=>array()
 							);
 				//get blog category
@@ -122,17 +123,15 @@
 			return $ret;
 		}
 		
-		
-		
-		
 		/**
-		* function new_people
-		* create new people
+		* function profile
+		* update profile data
 		*/
-		public function new_people()
+		public function profile()
 		{
 			$time	= dates::convert_to_date('now');
 			$time	= dates::convert_to_string($time);
+			$err 	= "";
 			
 			$form	= new form();
 			
@@ -140,39 +139,38 @@
 					->valid('Min_Length',3)
 					->valid('Max_Length',100)
 					
-					->post('name_en',false,true) // Name
-					->valid('Min_Length',3)
-					->valid('Max_Length',100)
-					
-					->post('id_type') // ID Type
-					->valid('In_array',array_keys(kb9::$id_type))
-					
-					->post('id_no') // ID Number
-					->valid('Min_Length',7)
+					->post('email') // email
+					->valid('Email')
 					
 					->post('phone') // phone
 					->valid('Phone')
 					
-					->post('email') // email
-					->valid('Email')
-					
-					->post('gender',false,true) // gender
-					->valid('In_array',array_keys(kb9::$gender))
-					
-					->post('birth',false,true) // birth date
-					->valid('Date')
-					
-					->post('nat',false,true) // nationality
-					->valid('In_array',array_keys(kb9::$countries))
-					
-					->post('social',false,true) // social
-					->valid('In_array',array_keys(kb9::$Social))
-					
-					->post('acadimic',false,true) // acadimaic
-					->valid('In_array',array_keys(kb9::$Acadimic))
-					
-					->post('job',false,true) // job
+					->post('description') // description
 					->valid('Min_Length',3)
+					
+					->post('address',false,true) // address
+					->valid('Min_Length',3)
+					
+					->post('old_pwd') // password
+					->valid('Min_Length',3)
+					
+					->post('pwd',false,true) // password
+					->valid('Min_Length',3)
+					
+					->post('pwd2',false,true) // address
+					->valid('Min_Length',3)
+					
+					->post('facebook',false,true) // facebook
+					->valid('URL')
+					
+					->post('twitter',false,true) // twitter
+					->valid('URL')
+					
+					->post('linkedin',false,true) // linkedin
+					->valid('URL')
+					
+					->post('instagram',false,true) // instagram
+					->valid('URL')
 					
 					->submit();
 			$fdata	= $form->fetch();
@@ -182,31 +180,25 @@
 				return array('Error'=>$fdata['MSG']);
 			}
 			
-			//check email & phone in people, staff and house
-			$err = "";
-			$sea_arr = array(':EMAIL'=>$fdata['email']);
-			
-			//house
-			$em = $this->db->select("SELECT h_email 
-									FROM ".DB_PREFEX."house 
-									WHERE h_email = :EMAIL" 
-										,$sea_arr);
-			if(count($em) != 0)
+			//check password
+			$em = $this->db->select("SELECT staff_pass 
+									FROM ".DB_PREFEX."staff 
+									WHERE staff_id = :ID" 
+									,array(':ID'=>session::get('user_id')));
+			$pwd = $em[0]['staff_pass'];
+			if($pwd != Hash::create(HASH_FUN,$fdata['old_pwd'],HASH_PASSWORD_KEY))
 			{
-				foreach($em as $val)
-				{
-					if($val['h_email'] == $fdata['email'] )
-					{
-						$err .= "In Field email : Duplicate .. \n";
-					}
-				}
+				$err .= "In Field old_pwd : not match .. \n";
 			}
 			
-			//staff
-			$em = $this->db->select("SELECT staff_email 
+			//check email & phone in staff
+			$em = $this->db->select("SELECT staff_email,staff_phone 
 									FROM ".DB_PREFEX."staff 
-									WHERE staff_email = :EMAIL" 
-										,$sea_arr);
+									WHERE (staff_email = :EMAIL OR staff_phone = :PHONE)
+										AND staff_id != :ID" 
+									,array(':EMAIL'=>$fdata['email']
+											,':PHONE'=> $fdata['phone']
+											,':ID'=>session::get('user_id')));
 			if(count($em) != 0)
 			{
 				foreach($em as $val)
@@ -215,35 +207,35 @@
 					{
 						$err .= "In Field email : Duplicate .. \n";
 					}
-				}
-			}
-			
-			//people
-			$sea_arr[':PHONE'] 	= $fdata['phone'];
-			$sea_arr[':ID'] 	= (!empty($fdata['id_no']))?$fdata['id_no']:"0";
-			$sea_arr[':ID_TY'] 	= (!empty($fdata['id_type']))?$fdata['id_type']:"0";
-			$em = $this->db->select("SELECT peo_phone, peo_email, peo_id_no, peo_id_type
-									FROM ".DB_PREFEX."people 
-									WHERE peo_email = :EMAIL 
-										OR peo_phone = :PHONE
-										OR (peo_id_no = :ID AND peo_id_type = :ID_TY)" 
-										,$sea_arr);
-			if(count($em) != 0)
-			{
-				foreach($em as $val)
-				{
-					if($val['peo_email'] == $fdata['email'] )
-					{
-						$err .= "In Field email : Duplicate .. \n";
-					}
-					if($val['peo_phone'] == $fdata['phone'])
+					if($val['staff_phone'] == $fdata['phone'] )
 					{
 						$err .= "In Field phone : Duplicate .. \n";
 					}
-					if($val['peo_id_no'] == $fdata['id_no'] && $val['peo_id_type'] == $fdata['id_type'] )
-					{
-						$err .= "In Field id_no : Duplicate .. \n";
-					}
+				}
+			}
+			
+			//create people
+			$people_array = array('staff_name'		=> $fdata['name']
+								,'staff_phone'		=> $fdata['phone']
+								,'staff_email'		=> $fdata['email']
+								,'staff_address'	=> $fdata['address']
+								,'staff_about'		=> $fdata['description']
+								,'staff_face'		=> $fdata['facebook']
+								,'staff_twitter'	=> $fdata['twitter']
+								,'staff_linked'		=> $fdata['linkedin']
+								,'staff_instagram'	=> $fdata['instagram']
+								,'update_at'		=> $time
+								,'update_by'		=> session::get('user_id')
+								);
+							
+			//new password				
+			if(!empty($fdata['pwd']) || !empty($fdata['pwd2']))
+			{				
+				if($fdata['pwd'] != $fdata['pwd2'])
+				{
+					$err .= "In Field pwd2 : not match .. \n";
+				}else{
+					$people_array['staff_pass'] = Hash::create(HASH_FUN,$fdata['pwd'],HASH_PASSWORD_KEY);
 				}
 			}
 			
@@ -252,97 +244,52 @@
 				return array('Error'=>$err);
 			}
 			
-			//create people
-			$people_array = array('peo_name'	=> $fdata['name']
-								,'peo_house'	=> session::get('user_id')
-								,'peo_main'		=> 0
-								,'create_at'	=> $time
-								);
-							
-			if(!empty($fdata['name_en']))
+			//update image
+			if(!empty($_FILES['user_img']))
 			{
-				$people_array['peo_name_EN'] = $fdata['name_en'];
-			}
-			if(!empty($fdata['id_type']))
-			{
-				$people_array['peo_id_type'] = $fdata['id_type'];
-			}
-			if(!empty($fdata['id_no']))
-			{
-				$people_array['peo_id_no'] = $fdata['id_no'];
-			}
-			if(!empty($fdata['phone']))
-			{
-				$people_array['peo_phone'] = $fdata['phone'];
-			}
-			if(!empty($fdata['email']))
-			{
-				$people_array['peo_email'] = $fdata['email'];
-			}
-			if(!empty($fdata['gender']))
-			{
-				$people_array['peo_gender'] = $fdata['gender'];
-			}
-			if(!empty($fdata['birth']))
-			{
-				$people_array['peo_birth'] = $fdata['birth'];
-			}
-			if(!empty($fdata['nat']))
-			{
-				$people_array['peo_nationality'] = $fdata['nat'];
-			}
-			if(!empty($fdata['social']))
-			{
-				$people_array['peo_social'] = $fdata['social'];
-			}
-			if(!empty($fdata['acadimic']))
-			{
-				$people_array['peo_acadimic'] = $fdata['acadimic'];
-			}
-			if(!empty($fdata['job']))
-			{
-				$people_array['peo_job'] = $fdata['job'];
+				$files	= new files(); 
+				if($files->check_file($_FILES['user_img'],'img'))
+				{
+					$people_array['staff_img'] = $files->up_file($_FILES['user_img'],URL_PATH.'public/IMG/users');
+					
+				}else
+				{
+					return array('Error'=>"In Field user_img: Error data");
+				}
 			}
 			
-			$this->db->insert(DB_PREFEX.'people',$people_array);
-			$id = $this->db->LastInsertedId();
+			$this->db->update(DB_PREFEX.'staff',$people_array,"staff_id = ".session::get('user_id'));
 			
-			return array('id'=> $id);
+			return $people_array;
 		}
 		
 		/**
-		* function new_people
-		* create new people
+		* function new_blog
+		* create new blog
 		*/
-		public function new_worker()
+		public function new_blog()
 		{
 			$time	= dates::convert_to_date('now');
 			$time	= dates::convert_to_string($time);
 			
 			$form	= new form();
 			
-			$form	->post('work_name') // Name
+			$form	->post('blog_name') // Name
 					->valid('Min_Length',3)
 					->valid('Max_Length',100)
 					
-					->post('work_name_en',false,true) // Name
+					->post('blog_content') // content
+					->valid('Min_Length',20)
+					
+					->post('blog_desc') // description
 					->valid('Min_Length',3)
-					->valid('Max_Length',100)
+					->valid('Max_Length',5000)
 					
-					->post('work_phone') // phone
-					->valid('Phone')
+					->post('category') // category
+					->valid_array('Integer')
 					
-					->post('work_job',false,true) // job
+					->post('tag',false,true) // tag
 					->valid('Min_Length',3)
-					
-					->post('work_gender',false,true) // gender
-					->valid('In_array',array_keys(kb9::$gender))
-					
-					->post('work_nat',false,true) // nationality
-					->valid('In_array',array_keys(kb9::$countries))
-					
-					->post('work_soc',false,true) // social
-					->valid('In_array',array_keys(kb9::$Social))
 					
 					->submit();
 			$fdata	= $form->fetch();
@@ -352,41 +299,59 @@
 				return array('Error'=>$fdata['MSG']);
 			}
 			
-			//create people
-			$people_array = array('work_name'	=> $fdata['work_name']
-								,'work_house'	=> session::get('user_id')
+			//create blog
+			
+			$fdata['blog_desc'] = str_replace("&amp;","&",$fdata['blog_desc']);
+			
+			$blog_array = array('b_user'		=> session::get('user_id')
+								,'b_title'		=> $fdata['blog_name']
+								,'b_desc'		=> htmlspecialchars_decode($fdata['blog_desc'])
+								,'b_keywords'	=> $fdata['tag']
+								,'b_blog'		=> htmlspecialchars_decode($fdata['blog_content'])
 								,'create_at'	=> $time
 								);
-							
-			if(!empty($fdata['work_name_en']))
+			//update image
+			if(!empty($_FILES['blog_img']))
 			{
-				$people_array['work_name_EN'] = $fdata['work_name_en'];
-			}
-			if(!empty($fdata['work_phone']))
+				$files	= new files(); 
+				if($files->check_file($_FILES['blog_img'],'img'))
+				{
+					$blog_array['b_img'] = $files->up_file($_FILES['blog_img'],URL_PATH.'public/IMG/blog');
+					
+				}else
+				{
+					return array('Error'=>"In Field b_img: Error data");
+				}
+			}else
 			{
-				$people_array['work_phone'] = $fdata['work_phone'];
-			}
-			if(!empty($fdata['work_job']))
-			{
-				$people_array['work_job'] = $fdata['work_job'];
-			}
-			if(!empty($fdata['work_gender']))
-			{
-				$people_array['work_gender'] = $fdata['work_gender'];
-			}
-			if(!empty($fdata['work_nat']))
-			{
-				$people_array['work_nationality'] = $fdata['work_nat'];
-			}
-			if(!empty($fdata['work_soc']))
-			{
-				$people_array['work_social'] = $fdata['work_soc'];
+				$blog_array['b_img']= "logo.png";
 			}
 			
-			$this->db->insert(DB_PREFEX.'worker',$people_array);
+			
+			$this->db->insert(DB_PREFEX.'blog',$blog_array);
 			$id = $this->db->LastInsertedId();
+			
+			if(!empty($id))
+			{
+				foreach($fdata['category'] as $val)
+				{
+					$this->db->insert(DB_PREFEX.'blog_category',array("blog_id"=>$id,"category"=>$val,"comment"=>""));
+				}
+			}
 			return array('id'=> $id);
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		/**
 		* function peo_info

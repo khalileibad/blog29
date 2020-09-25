@@ -73,6 +73,7 @@
 		<script src="<?php echo URL?>public/vendor/jquery.easing/jquery.easing.min.js"></script>
 
 		<!-- Template Main JS File -->
+		<script src="<?php echo URL?>public/JS/jquery.form.js"></script>
 		<script src="<?php echo URL?>public/JS/main.js"></script>
 		<script src="<?php echo URL?>public/JS/default.js"></script>
 		<?php

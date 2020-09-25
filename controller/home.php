@@ -17,22 +17,23 @@
 		//Display home window
 		function index()
 		{
-			$this->view->CSS = array();
-			$this->view->JS = array('public/JS/paging.js'
+			$this->view->CSS = array("public/vendor/simditor/assets/styles/simditor.css");
+			$this->view->JS = array('public/vendor/simditor/assets/scripts/module.js'
+									,'public/vendor/simditor/assets/scripts/hotkeys.js'
+									,'public/vendor/simditor/assets/scripts/uploader.js'
+									,'public/vendor/simditor/assets/scripts/simditor.js'
+									,'public/JS/paging.js'
 									,'public/JS/img.js'
 									,'views/home/JS/home.js'
 									);
-			$this->view->EXT_CSS 	= array("https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-											,"https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
-											);
-			$this->view->EXT_JS 	= array("https://code.jquery.com/jquery-3.5.1.min.js"
-											,"https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-											,"https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"
-											);
-			
 			$this->view->menu 		= $this->model->menu();
 			$this->view->info 		= $this->model->info();
 			$this->view->render(array('home/index'));
+			
+			/*
+			<script type="text/javascript" src="site/assets/scripts/jquery.min.js"></script>
+		
+			*/
 		}
 		
 		//Display blog window
@@ -49,22 +50,43 @@
 		*/
 		function profile()
 		{
-			echo json_encode($this->model->profile());
+			$data = $this->model->profile();
+			if(!empty($data['Error']))
+			{
+				echo json_encode($data);
+				return;
+			}
+			
+			session::set('user_name'	,$data['staff_name']);
+			session::set('user_email'	,$data['staff_email']);
+			if(!empty($data['staff_img']))
+			{
+				session::set('user_img'		,$data['staff_img']);
+			}
+			echo json_encode(array('id'=>1));
 		}
-		
-		
-		
-		
 		
 		/**
-		* new_worker
-		* add new worker to house
+		* new_blog
+		* add new blog
 		* AJAX
 		*/
-		function new_worker()
+		function new_blog()
 		{
-			echo json_encode($this->model->new_worker());
+			echo json_encode($this->model->new_blog());
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//Display home details window
 		function peo_info()

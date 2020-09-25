@@ -43,8 +43,8 @@
 											);
 		
 		private $bloger_pages 			= array('home'			=> array('index','blog_list'
-																		,'upd_land','upd_house'
-																		,'peo_info','work_info','new_worker'
+																		,'profile','new_blog'
+																		,'blog_edit','work_info'
 																		,'upd_people','upd_worker'
 																		,'del_people','del_worker'
 																	)

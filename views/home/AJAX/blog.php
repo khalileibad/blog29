@@ -14,13 +14,14 @@
 				</h2>
 				<div class="entry-meta">
 					<ul>
-						<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i><time datetime="<?php echo $val['publish']?>"><?php echo $val['publish']?></time></li>
+						<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i><time datetime="<?php echo $val['create']?>"><?php echo $val['create']?></time></li>
+						<li class="d-flex align-items-center"><?php echo (empty($val['publish']))?"غير معتمدة":"معتمدة"?></time></li>
 					</ul>
 				</div>
 				<div class="entry-content">
-					<p><?php echo $val['desc']?></p>
+					<div><?php echo $val['desc']?></div>
 					<div class="read-more">
-						<a href="<?php echo URL."blog/details/".$val['id']?>">اقراء المزيد </a>
+						<a href="<?php echo URL."home/blog_edit/".$val['id']?>">تعديل </a>
 					</div>
 				</div>
 			</article><!-- End blog entry -->
