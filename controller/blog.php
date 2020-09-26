@@ -14,7 +14,7 @@
 			parent::__construct();
 			$this->view->CSS = array();
 			$this->view->JS = array('public/JS/paging.js','views/blog/JS/blog.js');
-			
+			$this->view->curr_page = "blog";
 		}
 		
 		//Display blog window
@@ -22,6 +22,10 @@
 		{
 			$this->view->menu 			= $this->model->menu();
 			$this->view->category 		= $this->model->category($category);
+			if(!empty($this->view->category))
+			{
+				$this->view->curr_page = "blog_".$this->view->category['cat_id'];
+			}
 			$this->view->render(array('blog/index'),'home');
 		}
 		

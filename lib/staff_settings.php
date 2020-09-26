@@ -44,9 +44,7 @@
 		
 		private $bloger_pages 			= array('home'			=> array('index','blog_list'
 																		,'profile','new_blog'
-																		,'blog_edit','work_info'
-																		,'upd_people','upd_worker'
-																		,'del_people','del_worker'
+																		,'blog_edit','upd_blog'
 																	)
 												
 											);

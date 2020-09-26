@@ -29,27 +29,33 @@
 
 		<nav class="nav-menu d-none mr-auto d-lg-block">
 			<ul>
-				<li><a href="<?php echo URL ?>dashboard/">الرئيسية</a></li>
+				<li class="<?php echo ($this->curr_page=="dashboard")?"nav_menu_active_page":"";?>"><a href="<?php echo URL ?>dashboard/">الرئيسية</a></li>
 			<?php
 				if(session::get('user_type'))
 				{
 					switch(session::get('user_type'))
 					{
 						case "bloger":
-							echo '<li><a href="'.URL.'home/">صفحتي </a></li>';
+							$cls = ($this->curr_page=="home")?"nav_menu_active_page":"";
+							echo '<li class="'.$cls.'"><a href="'.URL.'home/">صفحتي </a></li>';
 						break;
 						case "accept":
+							$cls = ($this->curr_page=="home")?"nav_menu_active_page":"";
+							
 						break;
 						case "admin":
+							$cls = ($this->curr_page=="home")?"nav_menu_active_page":"";
+							
 						break;
 					}
 				}
 			?>
-				<li><a href="<?php echo URL ?>blog/index">التدوينات</a></li>
+				<li class="<?php echo ($this->curr_page=="blog")?"nav_menu_active_page":"";?>"><a href="<?php echo URL ?>blog/index">التدوينات</a></li>
 			<?php
 				foreach($this->menu as $val)
 				{
-					echo "<li><a href='".URL."blog/index/".$val['id']."'>".$val['name']."</a></li>";
+					$cls = ($this->curr_page=="blog_".$val['id'])?"nav_menu_active_page":"";
+					echo "<li class='".$cls."'><a href='".URL."blog/index/".$val['id']."'>".$val['name']."</a></li>";
 				}
 			?>
 				<!--li class="drop-down"><a href="#">التصنيفات</a>
@@ -61,8 +67,8 @@
 						<li><a href="#">تصنيف 1</a></li>
 					</ul>
 				</li-->
-				<li><a href="<?php echo URL ?>dashboard/about">عن 29 </a></li>
-				<li><a href="<?php echo URL ?>dashboard/contact">اتصل بنا</a></li>
+				<li class="<?php echo ($this->curr_page=="about")?"nav_menu_active_page":"";?>"><a href="<?php echo URL ?>dashboard/about">عن 29 </a></li>
+				<li class="<?php echo ($this->curr_page=="contact")?"nav_menu_active_page":"";?>"><a href="<?php echo URL ?>dashboard/contact">اتصل بنا</a></li>
 			</ul>
 		</nav><!-- .nav-menu -->
 		<!--a href="index.html" class="get-started-btn ml-auto">Get Started</a-->

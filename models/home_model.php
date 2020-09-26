@@ -341,254 +341,103 @@
 			return array('id'=> $id);
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		/**
-		* function peo_info
-		* get people Home Details info
+		* function blog
+		* get blogs details
 		*/
-		public function peo_info()
+		public function blog($blog_id)
 		{
-			$ret = array();
-			
-			//get People
-			$ret = $this->db->select("SELECT peo_id, peo_name, peo_name_EN
-										,peo_id_type, peo_id_no, peo_birth
-										,peo_gender, peo_nationality, peo_social, peo_acadimic
-										,peo_job, peo_phone, peo_email, peo_main
-										FROM ".DB_PREFEX."people WHERE peo_house = :ID"
-										,array(":ID"=>session::get('user_id')));
-			//Get Deseases
-			foreach($ret AS $key => $val)
+			$form	= new form();
+			if(empty($blog_id) || !$form->single_valid($blog_id,'Integer'))
 			{
-				$ret[$key]['deseases'] = $this->db->select("SELECT des_id, des_desease
-															,des_start, des_end, des_comment
-															FROM ".DB_PREFEX."disease 
-															WHERE des_people = :ID"
-															,array(":ID"=>$val['peo_id']));
+				return array();
+			}
+
+			$blog = array();
+			//get blog data
+			$b = $this->db->select('SELECT b_id, b_title, b_desc, b_img, b_likes
+									,b_see, b_accept_date, b_blog, b_keywords
+									FROM '.DB_PREFEX.'blog 
+									WHERE b_user = :USER AND b_id = :ID
+									',array(':USER'=>session::get('user_id'),':ID'=>$blog_id));
+			if(count($b) != 1)
+			{
+				return array();
 			}
 			
-			return $ret;
-		}
-		
-		/**
-		* function peo_info
-		* get people Home Details info
-		*/
-		public function work_info()
-		{
-			//get workers
-			return $this->db->select("SELECT work_id, work_name, work_name_EN, work_phone
-												,work_nationality, work_social, work_gender, work_job
-												FROM ".DB_PREFEX."worker WHERE work_house = :ID"
-												,array(":ID"=>session::get('user_id')));
+			$blog = array('id'		=>$b[0]['b_id'],
+						'title'		=>$b[0]['b_title'],
+						'desc'		=>$b[0]['b_desc'],
+						'text'		=>$b[0]['b_blog'],
+						'img'		=>$b[0]['b_img'],
+						'likes'		=>$b[0]['b_likes'],
+						'b_see'		=>$b[0]['b_see'],
+						'publish'	=>$b[0]['b_accept_date'],
+						'keywords'	=>$b[0]['b_keywords'],
+						'cat'		=>array(),
+						'comment'	=>array()
+						);
 			
+			//get blog category
+			$cat = $this->db->select('SELECT cat_id, cat_name,comment,cat_class
+									FROM '.DB_PREFEX.'blog_category 
+									JOIN '.DB_PREFEX.'category ON category = cat_id
+									WHERE blog_id = :ID 
+									',array(':ID'=>$b[0]['b_id']));
+			foreach($cat as $value)
+			{
+				array_push($blog['cat'],$value['cat_id']);
+			}
+			
+			//get blog comments
+			$comm = $this->db->select('SELECT com_id, com_aut_name, com_aut_phone,com_aut_email
+									,com_likes,com_comment,create_at
+									FROM '.DB_PREFEX.'comments 
+									WHERE com_blog = :ID AND accept_by IS NOT NULL
+									',array(':ID'=>$b[0]['b_id']));
+			foreach($comm as $value)
+			{
+				array_push($blog['comment'],array('id'=>$value['com_id']
+											,'name'=>$value['com_aut_name']
+											,'phone'=>$value['com_aut_phone']
+											,'email'=>$value['com_aut_email']
+											,'like'=>$value['com_likes']
+											,'date'=>$value['create_at']
+											,'comm'=>$value['com_comment']));
+			}
+			return $blog;
 		}
 		
+		
 		/**
-		* function upd_land
-		* update land info
+		* function upd_blog
+		* update blog
 		*/
-		public function upd_land()
+		public function upd_blog()
 		{
 			$time	= dates::convert_to_date('now');
 			$time	= dates::convert_to_string($time);
 			
 			$form	= new form();
 			
-			$form	->post('l_id') // ID
-					->valid('Integer')
+			$form	->post('id') // ID
+					->valid('numeric')
 					
-					->post('land_no') // No
-					->valid('Integer')
-					
-					->post('land_sub_no') // sub No
-					->valid('Integer')
-					
-					->post('land_owner') // Owner Name
-					->valid('Min_Length',2)
-					
-					->post('land_owner_en') // Owner Name EN
-					->valid('Min_Length',2)
-					
-					->post('land_phone') // phone
-					->valid('Phone')
-					
-					->post('land_email') // Email
-					
-					->post('land_status') // STATUS
-					->valid('In_array',array_keys(kb9::$land_type))
-					
-					->post('land_units') // Units
-					->valid('Integer')
-					
-					->post('land_floor') // Floors
-					->valid('Integer')
-					
-					->submit();
-			$fdata	= $form->fetch();
-			
-			if(!empty($fdata['MSG']))
-			{
-				return array('Error'=>$fdata['MSG']);
-			}
-			
-			//check ID:
-			$em = $this->db->select("SELECT l_id FROM ".DB_PREFEX."land 
-									WHERE l_id = :ID  "
-									,array(":ID"=>$fdata['l_id']));
-			if(count($em) != 1)
-			{
-				return array('Error'=>"لم يتم العثور على بيانات الارض");
-			}
-			
-			//sub no
-			if(empty($fdata['land_sub_no']) && $fdata['land_sub_no'] !== 0)
-			{
-				$fdata['land_sub_no'] = 0;
-			}
-			//check no:
-			$em = $this->db->select("SELECT l_id FROM ".DB_PREFEX."land 
-									WHERE l_no = :NO AND l_sub_no = :SUB AND l_id != :ID  "
-									,array(":NO"=>$fdata['land_no'],":SUB"=>$fdata['land_sub_no'],":ID"=>$fdata['l_id']));
-			if(count($em) != 0)
-			{
-				return array('Error'=>"In Field land_no : Duplicate .. \n In Field land_sub_no : Duplicate .. \n");
-			}
-			
-			//Update
-			$land_array = array('l_no'				=> $fdata['land_no']
-								,'l_sub_no'			=> $fdata['land_sub_no']
-								,'l_owner_name'		=> $fdata['land_owner']
-								,'l_owner_name_EN'	=> $fdata['land_owner_en']
-								,'l_owner_phone'	=> $fdata['land_phone']
-								,'l_owner_email'	=> $fdata['land_email']
-								,'l_type'			=> $fdata['land_status']
-								,'l_house'			=> $fdata['land_units']
-								,'l_floor'			=> $fdata['land_floor']
-								,'update_by'		=> session::get('user_id')
-								,'update_at'		=> $time
-								);
-			
-			$this->db->update(DB_PREFEX.'land',$land_array,'l_id = '.$fdata['l_id']);
-			
-			return array('id'=>$fdata['l_id']);
-		}
-		
-		/**
-		* function upd_house
-		* update House info
-		*/
-		public function upd_house()
-		{
-			$time	= dates::convert_to_date('now');
-			$time	= dates::convert_to_string($time);
-			
-			$form	= new form();
-			
-			$form	->post('house_floor') // Floor
-					->valid('Integer')
-					
-					->post('house_status') // status
-					->valid('In_array',array_keys(kb9::$house_live_type))
-					
-					->post('house_card') // card
-					->valid('Integer')
-					
-					->post('house_desc',false,true) // Description
-					->valid('Min_Length',2)
-					
-					->submit();
-			$fdata	= $form->fetch();
-			
-			if(!empty($fdata['MSG']))
-			{
-				return array('Error'=>$fdata['MSG']);
-			}
-			
-			//check card no:
-			$em = $this->db->select("SELECT h_id FROM ".DB_PREFEX."house 
-									WHERE h_card = :NO AND h_id != :ID  "
-									,array(":NO"=>$fdata['house_card'],":ID"=>session::get('user_id')));
-			if(count($em) != 0)
-			{
-				return array('Error'=>"In Field house_card : Duplicate .. \n");
-			}
-			
-			//Update
-			$house_array = array('h_floor'	=> $fdata['house_floor']
-								,'h_type'	=> $fdata['house_status']
-								,'h_card'	=> $fdata['house_card']
-								,'h_desc'	=> $fdata['house_desc']
-								,'update_by'=> null
-								,'update_at'=> $time
-								);
-			
-			$this->db->update(DB_PREFEX.'house',$house_array,'h_id = '.session::get('user_id'));
-			
-			return array('id'=>session::get('user_id'));
-		}
-		
-		/**
-		* function upd_people
-		* update people data
-		*/
-		public function upd_people()
-		{
-			$time	= dates::convert_to_date('now');
-			$time	= dates::convert_to_string($time);
-			
-			$form	= new form();
-			
-			$form	->post('id') //people ID
-					->valid('Integer')
-					
-					->post('upd_name') // Name
+					->post('blog_name') // Name
 					->valid('Min_Length',3)
 					->valid('Max_Length',100)
 					
-					->post('upd_name_en',false,true) // Name
+					->post('blog_content') // content
+					->valid('Min_Length',20)
+					
+					->post('blog_desc') // description
 					->valid('Min_Length',3)
-					->valid('Max_Length',100)
+					->valid('Max_Length',5000)
 					
-					->post('upd_id_type') // ID Type
-					->valid('In_array',array_keys(kb9::$id_type))
+					->post('category') // category
+					->valid_array('Integer')
 					
-					->post('upd_id_no') // ID Number
-					->valid('Min_Length',7)
-					
-					->post('upd_phone') // phone
-					->valid('Phone')
-					
-					->post('upd_email') // email
-					->valid('Email')
-					
-					->post('upd_gender',false,true) // gender
-					->valid('In_array',array_keys(kb9::$gender))
-					
-					->post('upd_birth',false,true) // birth date
-					->valid('Date')
-					
-					->post('upd_nat',false,true) // nationality
-					->valid('In_array',array_keys(kb9::$countries))
-					
-					->post('upd_soc',false,true) // social
-					->valid('In_array',array_keys(kb9::$Social))
-					
-					->post('upd_aca',false,true) // acadimaic
-					->valid('In_array',array_keys(kb9::$Acadimic))
-					
-					->post('upd_job',false,true) // job
+					->post('tag',false,true) // tag
 					->valid('Min_Length',3)
 					
 					->submit();
@@ -599,182 +448,47 @@
 				return array('Error'=>$fdata['MSG']);
 			}
 			
+			//create blog
 			
-			//check email & phone in people
-			$err = "";
-			$sea_arr = array(':EMAIL'	=>$fdata['upd_email']
-							,':PHONE'	=>$fdata['upd_phone']
-							,':ID'		=>(!empty($fdata['upd_id_no']))?$fdata['upd_id_no']:"0"
-							,':ID_TY'	=>(!empty($fdata['upd_id_type']))?$fdata['upd_id_type']:"0"
-							,':ID_NO'	=>$fdata['id']
-							);
+			$fdata['blog_desc'] = str_replace("&amp;","&",$fdata['blog_desc']);
+			$fdata['blog_content'] = str_replace("&amp;","&",$fdata['blog_content']);
 			
-			$em = $this->db->select("SELECT peo_phone, peo_email, peo_id_no, peo_id_type
-									FROM ".DB_PREFEX."people 
-									WHERE peo_id != :ID_NO AND (peo_email = :EMAIL 
-										OR peo_phone = :PHONE
-										OR (peo_id_no = :ID AND peo_id_type = :ID_TY))" 
-										,$sea_arr);
-			if(count($em) != 0)
+			$blog_array = array('b_title'		=> $fdata['blog_name']
+								,'b_desc'		=> htmlspecialchars_decode($fdata['blog_desc'])
+								,'b_keywords'	=> $fdata['tag']
+								,'b_blog'		=> htmlspecialchars_decode($fdata['blog_content'])
+								,'b_accept_by'	=> null
+								,'b_accept_date'=> null
+								,'update_at'	=> $time
+								,'update_by'	=> session::get('user_id')
+								);
+			
+			//update image
+			if(!empty($_FILES['blog_img']))
 			{
-				foreach($em as $val)
+				$files	= new files(); 
+				if($files->check_file($_FILES['blog_img'],'img'))
 				{
-					if($val['peo_email'] == $fdata['upd_email'] )
-					{
-						$err .= "In Field upd_email : Duplicate .. \n";
-					}
-					if($val['peo_phone'] == $fdata['upd_phone'])
-					{
-						$err .= "In Field ne_house_phone : Duplicate .. \n";
-					}
-					if($val['peo_id_no'] == $fdata['upd_id_no'] && $val['peo_id_type'] == $fdata['upd_id_type'] )
-					{
-						$err .= "In Field upd_id_no : Duplicate .. \n";
-					}
+					$blog_array['b_img'] = $files->up_file($_FILES['blog_img'],URL_PATH.'public/IMG/blog');
+					
+				}else
+				{
+					return array('Error'=>"In Field b_img: Error data");
 				}
 			}
 			
-			if(!empty($err))
-			{
-				return array('Error'=>$err);
-			}
+			$this->db->update(DB_PREFEX.'blog',$blog_array,'b_id = '.$fdata['id']);
 			
-			//update people
-			$people_array = array('peo_name'	=> $fdata['upd_name']
-								,'update_at'	=> $time
-								,'update_by'	=> null
-								);
-							
-			if(!empty($fdata['upd_name_en']))
-			{
-				$people_array['peo_name_EN'] = $fdata['upd_name_en'];
-			}
-			if(!empty($fdata['upd_id_type']))
-			{
-				$people_array['peo_id_type'] = $fdata['upd_id_type'];
-			}
-			if(!empty($fdata['upd_id_no']))
-			{
-				$people_array['peo_id_no'] = $fdata['upd_id_no'];
-			}
-			if(!empty($fdata['upd_phone']))
-			{
-				$people_array['peo_phone'] = $fdata['upd_phone'];
-			}
-			if(!empty($fdata['upd_email']))
-			{
-				$people_array['peo_email'] = $fdata['upd_email'];
-			}
-			if(!empty($fdata['upd_gender']))
-			{
-				$people_array['peo_gender'] = $fdata['upd_gender'];
-			}
-			if(!empty($fdata['upd_birth']))
-			{
-				$people_array['peo_birth'] = $fdata['upd_birth'];
-			}
-			if(!empty($fdata['upd_nat']))
-			{
-				$people_array['peo_nationality'] = $fdata['upd_nat'];
-			}
-			if(!empty($fdata['upd_soc']))
-			{
-				$people_array['peo_social'] = $fdata['upd_soc'];
-			}
-			if(!empty($fdata['upd_aca']))
-			{
-				$people_array['peo_acadimic'] = $fdata['upd_aca'];
-			}
-			if(!empty($fdata['upd_job']))
-			{
-				$people_array['peo_job'] = $fdata['upd_job'];
-			}
+			//delete old category
+			$this->db->delete(DB_PREFEX.'blog_category',"blog_id = ".$fdata['id']);
 			
-			$this->db->update(DB_PREFEX.'people',$people_array,'peo_id = '.$fdata['id']);
-			
+			foreach($fdata['category'] as $val)
+			{
+				$this->db->insert(DB_PREFEX.'blog_category',array("blog_id"=>$fdata['id'],"category"=>$val,"comment"=>""));
+			}
 			return array('id'=> $fdata['id']);
 		}
 		
-		/**
-		* function upd_worker
-		* update worker data
-		*/
-		public function upd_worker()
-		{
-			$time	= dates::convert_to_date('now');
-			$time	= dates::convert_to_string($time);
-			
-			$form	= new form();
-			
-			$form	->post('id') //Worker ID
-					->valid('Integer')
-					
-					->post('upd_work_name') // Name
-					->valid('Min_Length',3)
-					->valid('Max_Length',100)
-					
-					->post('upd_work_name_en',false,true) // Name
-					->valid('Min_Length',3)
-					->valid('Max_Length',100)
-					
-					->post('upd_work_phone') // phone
-					->valid('Phone')
-					
-					->post('upd_work_job',false,true) // job
-					->valid('Min_Length',3)
-					
-					->post('upd_work_gender',false,true) // gender
-					->valid('In_array',array_keys(kb9::$gender))
-					
-					->post('upd_work_nat',false,true) // nationality
-					->valid('In_array',array_keys(kb9::$countries))
-					
-					->post('upd_work_soc',false,true) // social
-					->valid('In_array',array_keys(kb9::$Social))
-					
-					->submit();
-			$fdata	= $form->fetch();
-			
-			if(!empty($fdata['MSG']))
-			{
-				return array('Error'=>$fdata['MSG']);
-			}
-			
-			//create people
-			$people_array = array('work_name'	=> $fdata['upd_work_name']
-								,'update_at'	=> $time
-								,'update_by'	=> null
-								);
-							
-			if(!empty($fdata['upd_work_name_en']))
-			{
-				$people_array['work_name_EN'] = $fdata['upd_work_name_en'];
-			}
-			if(!empty($fdata['upd_work_phone']))
-			{
-				$people_array['work_phone'] = $fdata['upd_work_phone'];
-			}
-			if(!empty($fdata['upd_work_job']))
-			{
-				$people_array['work_job'] = $fdata['upd_work_job'];
-			}
-			if(!empty($fdata['upd_work_gender']))
-			{
-				$people_array['work_gender'] = $fdata['upd_work_gender'];
-			}
-			if(!empty($fdata['upd_work_nat']))
-			{
-				$people_array['work_nationality'] = $fdata['upd_work_nat'];
-			}
-			if(!empty($fdata['upd_work_soc']))
-			{
-				$people_array['work_social'] = $fdata['upd_work_soc'];
-			}
-			
-			$this->db->update(DB_PREFEX.'worker',$people_array,'work_id = '.$fdata['id']);
-			
-			return array('id'=> $fdata['id']);
-		}
 		
 		/**
 		* function del_people
@@ -801,34 +515,6 @@
 			
 			
 			$this->db->delete(DB_PREFEX.'people','peo_id = '.$id);
-			
-			return array('id'=>$id);
-		}
-		
-		/**
-		* function del_worker
-		* delete worker
-		*/
-		public function del_worker($id)
-		{
-			$form	= new form();
-			
-			if(empty($id) || !$form->single_valid($id,'Integer'))
-			{
-				return array();
-			}
-			
-			//check ID:
-			$em = $this->db->select("SELECT work_id FROM ".DB_PREFEX."worker 
-									WHERE work_id = :ID  "
-									,array(":ID"=>$id));
-			if(count($em) != 1)
-			{
-				return array('Error'=>"لم يتم العثور على المواطن");
-			}
-			
-			
-			$this->db->delete(DB_PREFEX.'worker','work_id = '.$id);
 			
 			return array('id'=>$id);
 		}

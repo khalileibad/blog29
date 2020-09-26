@@ -12,6 +12,7 @@
 		function __construct()
 		{
 			parent::__construct();
+			$this->view->curr_page = "home";
 		}
 		
 		//Display home window
@@ -30,10 +31,6 @@
 			$this->view->info 		= $this->model->info();
 			$this->view->render(array('home/index'));
 			
-			/*
-			<script type="text/javascript" src="site/assets/scripts/jquery.min.js"></script>
-		
-			*/
 		}
 		
 		//Display blog window
@@ -76,102 +73,39 @@
 			echo json_encode($this->model->new_blog());
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		//Display home details window
-		function peo_info()
+		//Display upd blog window
+		function blog_edit($id=0)
 		{
-			$this->view->peo_info 	= $this->model->peo_info();
-			if(is_array($this->view->peo_info))
+			$this->view->blog 		= $this->model->blog($id);
+			if(empty($this->view->blog))
 			{
-				$this->view->js_render('home/AJAX/peo_info');
-			}else
-			{// if There Is Error!
-				echo $this->view->peo_info;
+				$this->index();
+				return;
 			}
-		}
-		
-		//Display home details window
-		function work_info()
-		{
-			$this->view->work_info 	= $this->model->work_info();
-			if(is_array($this->view->work_info))
-			{
-				$this->view->js_render('home/AJAX/work_info');
-			}else
-			{// if There Is Error!
-				echo $this->view->peo_info;
-			}
-		}
-		
-		/**
-		* upd_land
-		* update Land info
-		* AJAX
-		*/
-		function upd_land()
-		{
-			echo json_encode($this->model->upd_land());
+			$this->view->menu 		= $this->model->menu();
+			
+			$this->view->CSS = array("public/vendor/simditor/assets/styles/simditor.css");
+			$this->view->JS = array('public/vendor/simditor/assets/scripts/module.js'
+									,'public/vendor/simditor/assets/scripts/hotkeys.js'
+									,'public/vendor/simditor/assets/scripts/uploader.js'
+									,'public/vendor/simditor/assets/scripts/simditor.js'
+									,'public/JS/paging.js'
+									,'public/JS/img.js'
+									,'views/home/JS/home.js'
+									);
+			$this->view->info 		= $this->model->info();
+			$this->view->render(array('home/details'));
+			
 		}
 		
 		/**
-		* upd_house
-		* update House info
+		* upd_blog
+		* update blog
 		* AJAX
 		*/
-		function upd_house()
+		function upd_blog()
 		{
-			echo json_encode($this->model->upd_house());
-		}
-		
-		/**
-		* upd_home
-		* update home info
-		* AJAX
-		*/
-		function upd_people()
-		{
-			echo json_encode($this->model->upd_people());
-		}
-		
-		/**
-		* upd_worker
-		* update worker info
-		* AJAX
-		*/
-		function upd_worker()
-		{
-			echo json_encode($this->model->upd_worker());
-		}
-		
-		/**
-		* del_home
-		* delete home info
-		* AJAX
-		*/
-		function del_people($id=0)
-		{
-			echo json_encode($this->model->del_people($id));
-		}
-		
-		/**
-		* del_worker
-		* delete worker info
-		* AJAX
-		*/
-		function del_worker($id=0)
-		{
-			echo json_encode($this->model->del_worker($id));
+			echo json_encode($this->model->upd_blog());
 		}
 		
 		

@@ -14,6 +14,7 @@
 			parent::__construct();
 			$this->view->CSS = array();
 			$this->view->JS = array('views/dashboard/JS/dash.js');
+			$this->view->curr_page = "dashboard";
 			
 		}
 		
@@ -30,6 +31,7 @@
 		//Display about window
 		function about()
 		{
+			$this->view->curr_page = "about";
 			$this->view->menu = $this->model->menu();
 			$this->view->staff = $this->model->staff();
 			$this->view->render(array('dashboard/about'),'home');
@@ -38,6 +40,7 @@
 		//Display contact
 		function contact()
 		{
+			$this->view->curr_page = "contact";
 			$this->view->menu = $this->model->menu();
 			$this->view->render(array('dashboard/contact'),'home');
 		}

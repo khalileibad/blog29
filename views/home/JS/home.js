@@ -119,3 +119,48 @@ $('#new_blog_form').submit(function(e) {
 	return false; 
 })
 
+//upd_blog_form submit
+$('#upd_blog_form').submit(function(e) {
+	
+	var reg_form = $(this);
+	$(this).find(".err_notification").addClass(E_HIDE);
+	
+	var postData = $(this).serializeArray();
+	e.preventDefault();
+	
+	//$('#loader-icon').show();
+	$(this).ajaxSubmit({ 
+	
+		target:   '#targetLayer', 
+		beforeSubmit: function() {
+			form_progress(0);
+		},
+		uploadProgress: function (event, position, total, percentComplete){	
+			form_progress(percentComplete);
+		},
+		success:function (){
+			form_progress(100);
+			var x = $('#targetLayer').html();
+			try {
+				var obj = JSON.parse(x);
+				if ("Error" in obj)
+				{
+					error_handler(x);
+				}else if("id" in obj && obj.id != 0)
+				{
+					alert("تم اضافة المدونة بنجاح");
+					
+				}else
+				{
+					alert(x);
+				}
+			}
+			catch(err) {
+				alert(err.message+"\n\n\n"+x);
+			}
+		},
+		resetForm: false
+	});
+	return false; 
+})
+
