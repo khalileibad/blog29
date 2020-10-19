@@ -204,7 +204,6 @@
 			$comm = array();
 			foreach($comments as $value)
 			{
-				array_push($blog['comment'],array('id'=>$value['com_id']
 				$comm = array('id'=>$value['com_id']
 							,'name'=>$value['com_aut_name']
 							,'phone'=>$value['com_aut_phone']
