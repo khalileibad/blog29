@@ -221,7 +221,8 @@
 			//SELECT ``, ``, `comment` FROM `` WHERE 1
 			$x = $this->select("SELECT ".DB_PREFEX."category.*, count(blog_id) as no
 								FROM ".DB_PREFEX."category 
-								LEFT JOIN ".DB_PREFEX."blog_category ON category = cat_id
+								LEFT JOIN ".DB_PREFEX."blog_category ON category = cat_id 
+									AND blog_id not in (SELECT b_id FROM ".DB_PREFEX."blog WHERE b_accept_by IS NULL)
 								WHERE 1=1 
 								GROUP BY cat_id",array());
 			

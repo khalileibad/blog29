@@ -12,6 +12,7 @@
 		function __construct()
 		{
 			parent::__construct();
+			$this->view->curr_page = "accept";
 			$this->view->CSS = array();
 			$this->view->JS = array('views/accept/JS/accept.js');
 		}
@@ -19,115 +20,83 @@
 		//Display accept window
 		function index()
 		{
-			die('Accept ... <a href="'.URL.'login/logout">logout</a> ' );
-			$this->view->info 	= $this->model->info();
+			$this->view->CSS = array("public/vendor/simditor/assets/styles/simditor.css");
+			$this->view->JS = array('public/vendor/simditor/assets/scripts/module.js'
+									,'public/vendor/simditor/assets/scripts/hotkeys.js'
+									,'public/vendor/simditor/assets/scripts/uploader.js'
+									,'public/vendor/simditor/assets/scripts/simditor.js'
+									,'public/JS/paging.js'
+									,'public/JS/img.js'
+									,'views/accept/JS/accept.js'
+									);
+			$this->view->menu 		= $this->model->menu();
+			$this->view->info 		= $this->model->info();
 			$this->view->render(array('accept/index'));
 		}
 		
-		/**
-		* new_people
-		* add new people to house
-		* AJAX
-		*/
-		function new_people()
+		
+		//Display blog window
+		function blog_list($page_no=1)
 		{
-			echo json_encode($this->model->new_people());
+			$this->view->blog_list 		= $this->model->blog_list($page_no);
+			$this->view->js_render('accept/AJAX/blog');
 		}
 		
 		/**
-		* new_worker
-		* add new worker to house
+		* profile
+		* update profile data
 		* AJAX
 		*/
-		function new_worker()
+		function profile()
 		{
-			echo json_encode($this->model->new_worker());
-		}
-		
-		//Display accept details window
-		function peo_info()
-		{
-			$this->view->peo_info 	= $this->model->peo_info();
-			if(is_array($this->view->peo_info))
+			$data = $this->model->profile();
+			if(!empty($data['Error']))
 			{
-				$this->view->js_render('accept/AJAX/peo_info');
-			}else
-			{// if There Is Error!
-				echo $this->view->peo_info;
+				echo json_encode($data);
+				return;
 			}
-		}
-		
-		//Display accept details window
-		function work_info()
-		{
-			$this->view->work_info 	= $this->model->work_info();
-			if(is_array($this->view->work_info))
+			
+			session::set('user_name'	,$data['staff_name']);
+			session::set('user_email'	,$data['staff_email']);
+			if(!empty($data['staff_img']))
 			{
-				$this->view->js_render('accept/AJAX/work_info');
-			}else
-			{// if There Is Error!
-				echo $this->view->peo_info;
+				session::set('user_img'		,$data['staff_img']);
 			}
+			echo json_encode(array('id'=>1));
+		}
+		
+		//Display upd blog window
+		function blog_edit($id=0)
+		{
+			$this->view->blog 		= $this->model->blog($id);
+			if(empty($this->view->blog))
+			{
+				$this->index();
+				return;
+			}
+			$this->view->menu 		= $this->model->menu();
+			
+			$this->view->CSS = array("public/vendor/simditor/assets/styles/simditor.css");
+			$this->view->JS = array('public/vendor/simditor/assets/scripts/module.js'
+									,'public/vendor/simditor/assets/scripts/hotkeys.js'
+									,'public/vendor/simditor/assets/scripts/uploader.js'
+									,'public/vendor/simditor/assets/scripts/simditor.js'
+									,'public/JS/paging.js'
+									,'public/JS/img.js'
+									,'views/accept/JS/accept.js'
+									);
+			$this->view->render(array('accept/details'));
+			
 		}
 		
 		/**
-		* upd_land
-		* update Land info
+		* upd_blog
+		* update blog
 		* AJAX
 		*/
-		function upd_land()
+		function upd_blog()
 		{
-			echo json_encode($this->model->upd_land());
-		}
-		
-		/**
-		* upd_house
-		* update House info
-		* AJAX
-		*/
-		function upd_house()
-		{
-			echo json_encode($this->model->upd_house());
-		}
-		
-		/**
-		* upd_accept
-		* update accept info
-		* AJAX
-		*/
-		function upd_people()
-		{
-			echo json_encode($this->model->upd_people());
-		}
-		
-		/**
-		* upd_worker
-		* update worker info
-		* AJAX
-		*/
-		function upd_worker()
-		{
-			echo json_encode($this->model->upd_worker());
-		}
-		
-		/**
-		* del_accept
-		* delete accept info
-		* AJAX
-		*/
-		function del_people($id=0)
-		{
-			echo json_encode($this->model->del_people($id));
-		}
-		
-		/**
-		* del_worker
-		* delete worker info
-		* AJAX
-		*/
-		function del_worker($id=0)
-		{
-			echo json_encode($this->model->del_worker($id));
+			echo json_encode($this->model->upd_blog());
 		}
 		
 		

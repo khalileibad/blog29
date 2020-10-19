@@ -196,20 +196,39 @@
 			}
 			
 			//get blog comments
-			$comm = $this->db->select('SELECT com_id, com_aut_name, com_aut_phone,com_aut_email
+			$comments = $this->db->select('SELECT com_id, com_aut_name, com_aut_phone,com_aut_email
 									,com_likes,com_comment,create_at
 									FROM '.DB_PREFEX.'comments 
 									WHERE com_blog = :ID AND accept_by IS NOT NULL
 									',array(':ID'=>$b[0]['b_id']));
-			foreach($comm as $value)
+			$comm = array();
+			foreach($comments as $value)
 			{
 				array_push($blog['comment'],array('id'=>$value['com_id']
-											,'name'=>$value['com_aut_name']
-											,'phone'=>$value['com_aut_phone']
-											,'email'=>$value['com_aut_email']
-											,'like'=>$value['com_likes']
-											,'date'=>$value['create_at']
-											,'comm'=>$value['com_comment']));
+				$comm = array('id'=>$value['com_id']
+							,'name'=>$value['com_aut_name']
+							,'phone'=>$value['com_aut_phone']
+							,'email'=>$value['com_aut_email']
+							,'like'=>$value['com_likes']
+							,'date'=>$value['create_at']
+							,'comm'=>$value['com_comment']
+							,'rep'=>array());
+				
+				//get comment replay
+				$co = $this->db->select('SELECT rep_id, rep_comment, rep_likes, create_at
+									FROM '.DB_PREFEX.'com_replay 
+									WHERE rep_com = :ID AND rep_accept_by IS NOT NULL
+									',array(':ID'=>$value['com_id']));
+				foreach($co as $val)
+				{
+					array_push($comm['rep'],array('id'=>$val['rep_id']
+												,'comm'=>$val['rep_comment']
+												,'like'=>$val['rep_likes']
+												,'date'=>$val['create_at']
+												)
+								);
+				}
+				array_push($blog['comment'],$comm);
 			}
 			return $blog;
 		}

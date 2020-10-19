@@ -33,11 +33,9 @@
 																		,'get_noti','get_dr_noti','read_noti')
 												);
 		
-		private $accept_pages 			= array('accept'		=> array('index','new_people'
-																		,'upd_land','upd_house'
-																		,'peo_info','work_info','new_worker'
-																		,'upd_people','upd_worker'
-																		,'del_people','del_worker'
+		private $accept_pages 			= array('accept'		=> array('index','blog_list'
+																		,'profile','new_blog'
+																		,'blog_edit','upd_blog'
 																	)
 												
 											);

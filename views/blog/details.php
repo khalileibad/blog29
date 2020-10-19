@@ -93,6 +93,20 @@
 							<h5><a><?php echo $val['name']?></a></h5>
 							<time datetime="<?php echo $val['date']?>"><?php echo $val['date']?></time>
 							<p><?php echo $val['comm']?></p>
+							<!--Replay: -->
+						<?php
+							foreach($val['rep'] as $v)
+							{
+						?>
+							<div id="comment-reply-1" class="comment comment-reply clearfix">
+								<img src="<?php echo URL."public/IMG/users/".$this->blog['user_img'] ?>" class="comment-img  float-right" alt="">
+								<h5><a href=""><?php echo $this->blog['name']?></a> <a class="reply"><i class="icofont-reply"></i> الرد</a></h5>
+								<time datetime="<?php echo $v['date']?>"><?php echo $v['date']?></time>
+								<p><?php echo $v['comm']?></p>
+							</div><!-- End comment reply #1-->
+						<?php
+							}
+						?>
 						</div><!-- End comment #1 -->
 					<?php
 						}

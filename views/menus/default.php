@@ -40,7 +40,8 @@
 							echo '<li class="'.$cls.'"><a href="'.URL.'home/">صفحتي </a></li>';
 						break;
 						case "accept":
-							$cls = ($this->curr_page=="home")?"nav_menu_active_page":"";
+							$cls = ($this->curr_page=="accept")?"nav_menu_active_page":"";
+							echo '<li class="'.$cls.'"><a href="'.URL.'accept/">المدونات </a></li>';
 							
 						break;
 						case "admin":
