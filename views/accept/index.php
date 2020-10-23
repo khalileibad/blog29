@@ -26,7 +26,7 @@
 				<div class="tab-pane fade active" id="nav-comm" role="tabpanel" aria-labelledby="nav-blog-comment">
 					<form id="upd_comments">
 						<input type="hidden" name="csrf" id="csrf" class="hid_info" value="<?php echo session::get('csrf'); ?>" />
-						<div class="row bg-primary">
+						<div id="topbar" class="row mr-auto">
 							<div class="col-2">
 								<input type="checkbox" id="comm_accept_radio" value="1" class="" checked />
 								<label>قبول الجميع</label>
