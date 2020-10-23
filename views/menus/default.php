@@ -45,8 +45,10 @@
 							
 						break;
 						case "admin":
-							$cls = ($this->curr_page=="home")?"nav_menu_active_page":"";
-							
+							$cls = ($this->curr_page=="staff")?"nav_menu_active_page":"";
+							echo '<li class="'.$cls.'"><a href="'.URL.'staff/">المستخدمين </a></li>';
+							$cls = ($this->curr_page=="blog_cat")?"nav_menu_active_page":"";
+							echo '<li class="'.$cls.'"><a href="'.URL.'blog_cat/">المستخدمين </a></li>';
 						break;
 					}
 				}

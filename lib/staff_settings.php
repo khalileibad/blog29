@@ -16,21 +16,9 @@
 		private $admin_pages 			= array('staff'		=> array('index','user_list','dr_request'
 																	,'new_active','active','new_dr','dr_type'
 																	)
-												,'news'		=> array('index','news_list','new_news' 
+												,'blog_cat'	=> array('index','news_list','new_news' 
 																	,'active','news_data','upd_news'
 																	)
-												,'people'	=> array('index','request'
-																	,'people_list','req_people_list'
-																	,'accept_req','del_req'
-																	,'new_land','new_house'
-																	,'new_upload','new_people'
-																	,'info','upd_land','upd_house'
-																	,'peo_info','work_info','new_worker'
-																	,'upd_people','upd_worker'
-																	,'del_people','del_worker'
-																)
-												,'notificate'	=> array('index','book','set_book','dr','set_dr'
-																		,'get_noti','get_dr_noti','read_noti')
 												);
 		
 		private $accept_pages 			= array('accept'		=> array('index','blog_list'
