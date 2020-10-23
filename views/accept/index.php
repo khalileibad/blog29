@@ -8,17 +8,47 @@
 			<nav>
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
 					<a class="nav-item nav-link active" id="nav-blog-view" data-toggle="tab" href="#nav-blog" role="tab" aria-controls="nav-blog" aria-selected="false">التدوينات</a>
+					<a class="nav-item nav-link" id="nav-blog-comment" data-toggle="tab" href="#nav-comm" role="tab" aria-controls="nav-edit" aria-selected="false">التعليقات</a>
 					<a class="nav-item nav-link" id="nav-edit-profile" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">تعديل البيانات الشخصية</a>
 				</div>
 			</nav>
 			
 			<div class="tab-content" id="nav-tabContent">
-				
-				<!-- =============== MY Blog ============== -->
+				<!-- =============== Blog ============== -->
 				<div class="tab-pane fade show active" id="nav-blog" role="tabpanel" aria-labelledby="nav-blog-view">
 					<section id="blog_data" class="blog border">
 						
 					</section><!-- End Blog Section -->
+				</div>
+				<!-- =============== End MY Blog ============== -->	
+				
+				<!-- =============== Comments ============== -->
+				<div class="tab-pane fade active" id="nav-comm" role="tabpanel" aria-labelledby="nav-blog-comment">
+					<form id="upd_comments">
+						<input type="hidden" name="csrf" id="csrf" class="hid_info" value="<?php echo session::get('csrf'); ?>" />
+						<div class="row bg-primary">
+							<div class="col-2">
+								<input type="checkbox" id="comm_accept_radio" value="1" class="" checked />
+								<label>قبول الجميع</label>
+							</div>
+							<div class="col-2">
+								<select name="accept_type" class="">
+									<option value="" selected></option>
+									<option value="1">قبول</option>
+									<option value="2">رفض</option>
+								</select>
+								<div class="d-none err_notification " id="valid_accept_type">
+									هنالك خطأ في هذا الحقل
+								</div>
+							</div>
+							<div class="col-2">
+								<button id="save_comm" type="button">حفظ</button>
+							</div>		
+						</div>
+						<section id="comm_data" class="blog border">
+							
+						</section><!-- End Blog Section -->
+					</form>
 				</div>
 				<!-- =============== End MY Blog ============== -->	
 				

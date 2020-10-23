@@ -1,6 +1,7 @@
 //JS For news Actions
 $(document).ready(function(){
 	blog_list();
+	comm_list();
 	var editor = new Simditor({textarea: $('#blog_content')});
 	var editor = new Simditor({textarea: $('#blog_desc')});
 	
@@ -24,6 +25,14 @@ function blog_list()
 	
 	$.post(URL+"accept/blog_list/"+page_no,{},function(data,status,xhr){
 		$("#blog_data").html(data);
+	})	
+}
+
+//Get comm List 
+function comm_list()
+{
+	$.post(URL+"accept/comm_list/",{},function(data,status,xhr){
+		$("#comm_data").html(data);
 	})	
 }
 
@@ -164,3 +173,35 @@ $('#upd_blog_form').submit(function(e) {
 	return false; 
 })
 
+//Get surgery type list
+$(document).on('change','#comm_accept_radio', function (e) 
+{
+	$(".comm_accept_radio").attr('checked',this.checked);
+})
+
+$(document).on('click','#save_comm', function (e) //new_product submit
+{
+	$('#upd_comments').find(".err_notification").addClass(E_HIDE);
+	
+	var postData = $('#upd_comments').serializeArray();
+	$.post(URL+"accept/upd_comments",postData,function(data,status,xhr)
+	{
+		try {
+			var obj = JSON.parse(data);
+			if ("Error" in obj)
+			{
+				error_handler(data);
+			}else if("id" in obj && obj.id != 0)
+			{
+				alert("تم فبول / رفض التعليقات");
+				comm_list();
+			}else
+			{
+				alert(data);
+			}
+		}
+		catch(err) {
+			alert(err.message+"\n"+data);
+		}
+	})
+})

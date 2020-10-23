@@ -54,7 +54,7 @@
 		
 		/**
 		* function blog_list
-		* get all blogs based on current user
+		* get all unaccepted blogs
 		*/
 		public function blog_list($page)
 		{
@@ -121,6 +121,26 @@
 				array_push($ret['data'],$x);
 			}
 			return $ret;
+		}
+		
+		/**
+		* function comm_list
+		* get unaccepted comments
+		*/
+		public function comm_list()
+		{
+			//get comm data
+			return $this->db->select("SELECT com_id, com_aut_name
+									,com_aut_phone, com_aut_email
+									,com_comment, ".DB_PREFEX."comments.create_at AS com_create
+									,b_id, b_title, b_desc, b_img
+									,b_user, ".DB_PREFEX."blog.create_at AS b_create
+									FROM ".DB_PREFEX."comments 
+									JOIN ".DB_PREFEX."blog ON b_id = com_blog 
+									WHERE accept_by IS NULL
+									ORDER BY ".DB_PREFEX."comments.create_at DESC
+									",array());
+			
 		}
 		
 		/**
@@ -331,7 +351,6 @@
 			return $blog;
 		}
 		
-		
 		/**
 		* function upd_blog
 		* update blog
@@ -410,6 +429,59 @@
 				$this->db->insert(DB_PREFEX.'blog_category',array("blog_id"=>$fdata['id'],"category"=>$val,"comment"=>""));
 			}
 			return array('id'=> $fdata['id']);
+		}
+		
+		/**
+		* function upd_comments
+		* accept/deny comments
+		*/
+		public function upd_comments()
+		{
+			$time	= dates::convert_to_date('now');
+			$time	= dates::convert_to_string($time);
+			
+			$form	= new form();
+			
+			$form	->post('accept_type') // accept_type
+					->valid('numeric')
+					
+					->post('accept') // category
+					->valid_array('Integer')
+					
+					->submit();
+			$fdata	= $form->fetch();
+			
+			if(!empty($fdata['MSG']))
+			{
+				return array('Error'=>$fdata['MSG']);
+			}
+			if(empty($fdata['accept']))
+			{
+				return array('Error'=>"لم تختار تعليق");
+			}
+			
+			switch($fdata['accept_type'])
+			{
+				case 1: //accept
+					$time	= dates::convert_to_date('now');
+					$time	= dates::convert_to_string($time);
+					
+					$acc_array = array('accept_by'=>session::get('user_id'),'accept_at'=>$time);
+					foreach($fdata['accept'] as $val)
+					{
+						$this->db->update(DB_PREFEX.'comments',$acc_array,'com_id = '.$val);
+					}
+				break;
+				case 2: //deny
+					foreach($fdata['accept'] as $val)
+					{
+						$this->db->delete(DB_PREFEX.'comments','com_id = '.$val);
+					}
+				break;
+			}
+			
+			
+			return array('id'=> 1);
 		}
 		
 	}

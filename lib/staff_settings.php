@@ -36,6 +36,7 @@
 		private $accept_pages 			= array('accept'		=> array('index','blog_list'
 																		,'profile','new_blog'
 																		,'blog_edit','upd_blog'
+																		,'comm_list','upd_comments'
 																	)
 												
 											);

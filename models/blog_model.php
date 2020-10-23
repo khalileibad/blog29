@@ -33,7 +33,7 @@
 			}else
 			{
 				//get category data
-				$x = $this->db->select("SELECT cat_id, cat_name, cat_class
+				$x = $this->db->select("SELECT cat_id, cat_name, cat_class, cat_desc
 										FROM ".DB_PREFEX."category
 										WHERE cat_id = :ID
 										",array(":ID"=>$category));

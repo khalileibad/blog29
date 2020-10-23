@@ -34,12 +34,18 @@
 			$this->view->render(array('accept/index'));
 		}
 		
-		
-		//Display blog window
+		//Display blog
 		function blog_list($page_no=1)
 		{
 			$this->view->blog_list 		= $this->model->blog_list($page_no);
 			$this->view->js_render('accept/AJAX/blog');
+		}
+		
+		//Display comm
+		function comm_list()
+		{
+			$this->view->comm_list 		= $this->model->comm_list();
+			$this->view->js_render('accept/AJAX/comm');
 		}
 		
 		/**
@@ -97,6 +103,16 @@
 		function upd_blog()
 		{
 			echo json_encode($this->model->upd_blog());
+		}
+		
+		/**
+		* upd_comments
+		* accept/ deny comments
+		* AJAX
+		*/
+		function upd_comments()
+		{
+			echo json_encode($this->model->upd_comments());
 		}
 		
 		
