@@ -18,11 +18,11 @@
 							<div class="footer-info">
 								<h4>تابع 29 على</h4>
 								<div class="social-links mt-3">
-									<a href="<?php echo TWITTER?>" class="twitter"><i class="icofont-twitter"></i></a>
-									<a href="<?php echo FACE?>" class="facebook"><i class="icofont-facebook"></i></a>
-									<a href="<?php echo INSTAGRAM?>" class="instagram"><i class="icofont-instagram"></i></a>
-									<!--a href="<?php echo GOOGLE?>" class="google-plus"><i class="icofont-google-plus"></i></a-->
-									<a href="<?php echo LINKEDIN?>" class="linkedin"><i class="icofont-linkedin"></i></a>
+									<a target="_blank" href="<?php echo TWITTER?>" class="twitter"><i class="icofont-twitter"></i></a>
+									<a target="_blank" href="<?php echo FACE?>" class="facebook"><i class="icofont-facebook"></i></a>
+									<a target="_blank" href="<?php echo INSTAGRAM?>" class="instagram"><i class="icofont-instagram"></i></a>
+									<!--a target="_blank" href="<?php echo GOOGLE?>" class="google-plus"><i class="icofont-google-plus"></i></a-->
+									<a target="_blank" href="<?php echo LINKEDIN?>" class="linkedin"><i class="icofont-linkedin"></i></a>
 								</div>
 							</div>
 						</div>

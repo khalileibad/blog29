@@ -19,7 +19,7 @@
 				</ol>
 			</div>
 			<div class="d-flex justify-content-between align-items-center">
-				<?php echo $this->category['cat_desc']?>
+				<?php echo (!empty($this->category['cat_desc']))?$this->category['cat_desc']:"";?>
 			</div>
 		</div>
 	</section><!-- End Breadcrumbs -->

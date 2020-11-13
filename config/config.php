@@ -28,10 +28,10 @@
 	define('DB_PREFEX','b29_');
 	
 	//LINKS
-	define('FACE','#');
+	define('FACE','https://facebook.com/29Content/');
 	define('LINKEDIN','#');
-	define('TWITTER','#');
-	define('INSTAGRAM','#');
+	define('TWITTER','https://twitter.com/29content');
+	define('INSTAGRAM','https://www.instagram.com/29content/');
 	define('YOUTUBE','#');
 	define('GOOGLE','#');
 	

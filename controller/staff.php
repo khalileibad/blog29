@@ -12,6 +12,7 @@
 		function __construct()
 		{
 			parent::__construct();
+			$this->view->curr_page = "staff";
 			$this->view->CSS = array();
 			$this->view->JS = array('views/staff/JS/staff.js');
 		}
@@ -19,12 +20,12 @@
 		//Display user window
 		function index()
 		{
-			die('Admin ... <a href="'.URL.'login/logout">logout</a> ' );
+			$this->view->menu 		= $this->model->menu();
 			$this->view->render(array('staff/index'));
 		}
 		
 		/**
-		* user_list
+		* Staff_list
 		* AJAX fun
 		* get users list
 		*/

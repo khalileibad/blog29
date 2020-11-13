@@ -10,6 +10,14 @@
 			parent::__construct();
 		}
 		
+		/**
+		* function menu
+		* get menu
+		*/
+		public function menu()
+		{
+			return $this->db->get_menu();
+		}
 		
 		/**
 		* function user_list
@@ -42,7 +50,7 @@
 			if(!empty($fdata['name']))
 			{
 				$sea_arr[':NAME'] = "%".$fdata['name']."%";
-				$sea_txt .= 'staff_full_name like :NAME AND ';
+				$sea_txt .= 'staff_name like :NAME AND ';
 			}
 			if(!empty($fdata['type']))
 			{
@@ -56,12 +64,12 @@
 			}
 			$sea_txt .= ' staff_type != "admin" ';
 			
-			return $this->db->select("SELECT staID, staff_full_name, staff_full_name_en
+			return $this->db->select("SELECT staff_id, staff_name, staff_phone
 										,staff_email , staff_type, staff_active
+										,staff_img
 										FROM ".DB_PREFEX."staff
 										WHERE $sea_txt
-										GROUP BY staID
-										ORDER BY staff_full_name ASC
+										ORDER BY staff_name ASC
 										" ,$sea_arr
 								);
 		}
