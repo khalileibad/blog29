@@ -71,6 +71,16 @@
 			echo json_encode(array('id'=>1));
 		}
 		
+		/**
+		* new_blog
+		* add new blog
+		* AJAX
+		*/
+		function new_blog()
+		{
+			echo json_encode($this->model->new_blog());
+		}
+		
 		//Display upd blog window
 		function blog_edit($id=0)
 		{

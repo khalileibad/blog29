@@ -284,6 +284,84 @@
 		}
 		
 		/**
+		* function new_blog
+		* create new blog
+		*/
+		public function new_blog()
+		{
+			$time	= dates::convert_to_date('now');
+			$time	= dates::convert_to_string($time);
+			
+			$form	= new form();
+			
+			$form	->post('blog_name') // Name
+					->valid('Min_Length',3)
+					->valid('Max_Length',100)
+					
+					->post('blog_content') // content
+					->valid('Min_Length',20)
+					
+					->post('blog_desc') // description
+					->valid('Min_Length',3)
+					->valid('Max_Length',5000)
+					
+					->post('category') // category
+					->valid_array('Integer')
+					
+					->post('tag',false,true) // tag
+					->valid('Min_Length',3)
+					
+					->submit();
+			$fdata	= $form->fetch();
+			
+			if(!empty($fdata['MSG']))
+			{
+				return array('Error'=>$fdata['MSG']);
+			}
+			
+			//create blog
+			
+			$fdata['blog_desc'] = str_replace("&amp;","&",$fdata['blog_desc']);
+			
+			$blog_array = array('b_user'		=> session::get('user_id')
+								,'b_title'		=> $fdata['blog_name']
+								,'b_desc'		=> htmlspecialchars_decode($fdata['blog_desc'])
+								,'b_keywords'	=> $fdata['tag']
+								,'b_blog'		=> htmlspecialchars_decode($fdata['blog_content'])
+								,'create_at'	=> $time
+								);
+			//update image
+			if(!empty($_FILES['blog_img']))
+			{
+				$files	= new files(); 
+				if($files->check_file($_FILES['blog_img'],'img'))
+				{
+					$blog_array['b_img'] = $files->up_file($_FILES['blog_img'],URL_PATH.'public/IMG/blog');
+					
+				}else
+				{
+					return array('Error'=>"In Field b_img: Error data");
+				}
+			}else
+			{
+				$blog_array['b_img']= "logo.png";
+			}
+			
+			
+			$this->db->insert(DB_PREFEX.'blog',$blog_array);
+			$id = $this->db->LastInsertedId();
+			
+			if(!empty($id))
+			{
+				foreach($fdata['category'] as $val)
+				{
+					$this->db->insert(DB_PREFEX.'blog_category',array("blog_id"=>$id,"category"=>$val,"comment"=>""));
+				}
+			}
+			return array('id'=> $id);
+		}
+		
+		/**
 		* function blog
 		* get blogs details
 		*/

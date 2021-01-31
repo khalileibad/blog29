@@ -93,7 +93,7 @@
 			$this->db->insert(DB_PREFEX.'contact',$user_array);
 			$email = new Email();
 			$email->contact($user_array);
-			kb9::save_notification($this->db, $user_array,1);
+			blog29::save_notification($this->db, $user_array,1);
 			
 			$gr_dr = $this->db->LastInsertedId();
 				
@@ -167,7 +167,8 @@
 		*/
 		public function staff()
 		{
-			return $this->db->select('SELECT staff_id, staff_name, staff_phone, staff_email, staff_address
+			return $this->db->select('SELECT staff_id, staff_name, staff_phone, staff_email
+									,staff_address, staff_title
 									,staff_img, staff_about,staff_type
 									,staff_face, staff_twitter, staff_linked, staff_instagram 
 									FROM '.DB_PREFEX.'staff 

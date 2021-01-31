@@ -37,6 +37,10 @@
 										FROM ".DB_PREFEX."category
 										WHERE cat_id = :ID
 										",array(":ID"=>$category));
+				if(count($x) != 1)
+				{
+					return array();
+				}
 				return $x[0];
 			}
 		}
@@ -52,7 +56,7 @@
 			$where = "b_accept_date IS NOT NULL ";
 			//get bloger
 			$form	= new form();
-			if(!empty($category) && $form->single_valid($category,'Integer'))
+			if(!empty($category) && $form->single_valid($category,'Integer') === true)
 			{
 				$where .= "AND b_id IN (SELECT blog_id FROM ".DB_PREFEX."blog_category WHERE category = $category ) ";
 			}
@@ -65,9 +69,14 @@
 										WHERE $where
 										" ,array());
 										
-				$pages = ceil($c[0]['a'] / PAGING);
+				$b_nos = 0;
+				if(count($c) == 1)
+				{
+				    $b_nos = $c[0]['a'];
+				}
+				$pages = ceil( $b_nos/ PAGING);
 			
-				$ret = array('total'=> $c[0]['a'],'no_page'=>$pages,'curr'=>$page,'data'=>array());
+				$ret = array('total'=> $b_nos,'no_page'=>$pages,'curr'=>$page,'data'=>array());
 				
 				// Calculate the offset for the query
 				$off = ($page - 1)  * PAGING;

@@ -36,11 +36,11 @@
 			?>
 				<div class="col-lg-6 mb-3">
 					<div class="member d-flex align-items-start">
-						<div class="pic"><img src="<?php echo URL."public/IMG/users/".$val['staff_img'] ?>" class="img-fluid" alt=""></div>
-						<div class="member-info">
+						<div class="pic col-lg-3"><img src="<?php echo URL."public/IMG/users/".$val['staff_img'] ?>" class="img-fluid" alt=""></div>
+						<div class="member-info col-lg-9">
 							<h4><?php echo $val['staff_name']?></h4>
-							<span><?php echo staff_settings::$staf_asso_type[$val['staff_type']]['AR']?></span>
-							<p><?php echo $val['staff_about']?></p>
+							<span><?php echo $val['staff_title']?></span>
+							<p><?php echo str_replace("\n","<br/>",$val['staff_about']);?></p>
 							<div class="social">
 							<?php
 								echo (!empty($val['staff_twitter']))?'<a href="'.$val['staff_twitter'].'" target="_blank"><i class="icofont-twitter"></i></a>':"";

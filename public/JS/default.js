@@ -121,6 +121,11 @@ function close_form_dialog(di)
 	di.find('.err_notification').addClass(E_HIDE);
 	di.find('.clear_form_area').html('');
 	di.find('.form_images').attr('src','');
+	
+	$.each( di.find('.form_images'), function( key, value ) {
+		$x = $(this).attr('data-def');
+		$(this).attr('src',URL+$x);
+	});
 }
 
 $(document).ready(function() 

@@ -7,15 +7,93 @@
 		<div class="container">
 			<nav>
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<a class="nav-item nav-link active" id="nav-blog-view" data-toggle="tab" href="#nav-blog" role="tab" aria-controls="nav-blog" aria-selected="false">التدوينات</a>
+					<a class="nav-item nav-link active" id="nav-add-blog" data-toggle="tab" href="#nav-add" role="tab" aria-controls="nav-add" aria-selected="true">إضافة تدوينة جديدة</a>
+					<a class="nav-item nav-link" id="nav-blog-view" data-toggle="tab" href="#nav-blog" role="tab" aria-controls="nav-blog" aria-selected="false">التدوينات</a>
 					<a class="nav-item nav-link" id="nav-blog-comment" data-toggle="tab" href="#nav-comm" role="tab" aria-controls="nav-edit" aria-selected="false">التعليقات</a>
 					<a class="nav-item nav-link" id="nav-edit-profile" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">تعديل البيانات الشخصية</a>
 				</div>
 			</nav>
 			
 			<div class="tab-content" id="nav-tabContent">
+				<!-- =============== New Blog ============== -->
+				<div class="tab-pane fade show active" id="nav-add" role="tabpanel" aria-labelledby="nav-add-blog">
+					<section id="contact" class="contact border">
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-8">
+									<form id="new_blog_form" action="<?php echo URL?>accept/new_blog" method="post" role="form" enctype="multipart/form-data" class="php-form">
+										<input type="hidden" name="csrf" class="hid_info" value="<?php echo session::get('csrf'); ?>" />
+										<div class="form-row">
+											<div class="col-md-6 form-group">
+												<div class="text-center">
+													<img id="blog_image" src="<?php echo URL?>public/IMG/blog/logo.png" data-def="public/IMG/blog/logo.png" width="200px" height="120px" class="rounded form_images" alt="...">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="img">اختار صورة للتدوينة</label>
+												<input type="file" name="blog_img" class="file-upload image_upload form-control-file" data-id="blog_image" id="img" accept="image/*">
+												<div class="err_notification" id="valid_blog_img">هنالك خطأ في هذا الحقل</div>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="col-md-12 form-group">
+												<label for="name">عنوان التدوينة</label>
+												<input type="text" name="blog_name" class="form-control" id="name" placeholder="عنوان التدوينة" data-rule="minlen:4" data-msg="من فضلك ادخل عنوان لا يقل عن 5 احرف" />
+												<div class="err_notification" id="valid_blog_name">هنالك خطأ في هذا الحقل</div>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="col-md-12 form-group">
+												<label for="content">المحتوى</label>
+												<textarea class="form-control" id="blog_content" name="blog_content" rows="15" data-rule="required" data-msg="من فضلك اكتب المحتوى" placeholder="اكتب رسالتك هنا ..."></textarea>
+												<div class="err_notification" id="valid_blog_content">هنالك خطأ في هذا الحقل</div>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="col-md-12 form-group">
+												<label for="descriptison">وصف مختصر</label>
+												<textarea class="form-control" id="blog_desc" name="blog_desc" rows="5" data-rule="required" data-msg="من اكت الوصف المختصر للتدوينة" placeholder="اكتب رسالتك هنا ..."></textarea>
+												<div class="err_notification" id="valid_blog_desc">هنالك خطأ في هذا الحقل</div>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="col-md-12 form-group">
+												<label for="email">التصنيفات</label>
+												<ul class="list-inline">
+												<?php
+													foreach($this->menu as $val)
+													{
+														echo "<li><input class='' type='checkbox' name='category[]' value='".$val['id']."'/>".$val['name']."</li>";
+													}
+												?>
+												</ul>
+												<div class="err_notification" id="valid_category">هنالك خطأ في هذا الحقل</div>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="col-md-12 form-group">
+												<label for="tag">الوسم (اضف فاصلة بين كل وسم واخر)</label>
+												<input type="text" class="form-control" name="tag" id="tag" placeholder="اكتب الوسم" data-rule="minlen:4" data-msg="من فضلك ادخل الوسم" />
+												<div class="err_notification" id="valid_tag">هنالك خطأ في هذا الحقل</div>
+											</div>
+										</div>
+							
+										<div class="mb-3">
+											<div class="loading">تحميل</div>
+											<div class="error-message"></div>
+											<div class="sent-message">تمت اضافة التدوينة .. التدوينة قيد المراجعة</div>
+										</div>
+										<div class="text-center"><button type="submit">إضافة التدوينة</button></div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<!-- ================== End New Blog ================== -->
+				
 				<!-- =============== Blog ============== -->
-				<div class="tab-pane fade show active" id="nav-blog" role="tabpanel" aria-labelledby="nav-blog-view">
+				<div class="tab-pane fade active" id="nav-blog" role="tabpanel" aria-labelledby="nav-blog-view">
 					<section id="blog_data" class="blog border">
 						
 					</section><!-- End Blog Section -->
