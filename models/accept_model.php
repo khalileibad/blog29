@@ -328,6 +328,8 @@
 								,'b_desc'		=> htmlspecialchars_decode($fdata['blog_desc'])
 								,'b_keywords'	=> $fdata['tag']
 								,'b_blog'		=> htmlspecialchars_decode($fdata['blog_content'])
+								,'b_accept_by'	=> session::get('user_id')
+								,'b_accept_date'=> $time
 								,'create_at'	=> $time
 								);
 			//update image
