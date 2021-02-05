@@ -72,6 +72,19 @@
 				</li-->
 				<li class="<?php echo ($this->curr_page=="about")?"nav_menu_active_page":"";?>"><a href="<?php echo URL ?>dashboard/about">عن 29 </a></li>
 				<li class="<?php echo ($this->curr_page=="contact")?"nav_menu_active_page":"";?>"><a href="<?php echo URL ?>dashboard/contact">اتصل بنا</a></li>
+			<?php 
+			    if(session::get('user_type'))
+			    {
+		    ?>
+			    <a class=" d-none d-sm-block d-md-block" href="<?php echo URL ?>login/logout"><i class="icofont-sign-out"></i> خروج </a>
+		    <?php
+			    }else{
+		    ?>
+			    <a class="d-lg-none" href="<?php echo URL ?>login"><i class="icofont-sign-in"></i> دخول</a>
+			    <a class="d-lg-none" href="<?php echo URL ?>login/register"><i class="icofont-user"></i>تسجيل</a>
+		    <?php
+			    }
+		    ?>
 			</ul>
 		</nav><!-- .nav-menu -->
 		<!--a href="index.html" class="get-started-btn ml-auto">Get Started</a-->

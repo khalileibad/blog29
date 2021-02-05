@@ -7,10 +7,10 @@
 		<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
 			<article class="entry">
 				<div class="entry-img">
-					<img src="<?php echo URL."public/IMG/blog/".$val['img'] ?>" alt="" class="img-fluid">
+					<img src="<?php echo URL."public/IMG/blog/".$val['img'] ?>" alt="" class="img-fluid entry-img2">
 				</div>
 				<h2 class="entry-title">
-					<a href="<?php echo URL."blog/details/".$val['id']?>"><?php echo $val['title']?></a>
+					<a href="<?php echo URL."blog/details/".$val['id']?>"><?php echo htmlspecialchars_decode($val['title'])?></a>
 				</h2>
 				<div class="entry-meta">
 					<ul>
@@ -19,7 +19,7 @@
 					</ul>
 				</div>
 				<div class="entry-content">
-					<p><?php echo $val['desc']?></p>
+					<p><?php echo htmlspecialchars_decode($val['desc'])?></p>
 					<div class="read-more">
 						<a href="<?php echo URL."blog/details/".$val['id']?>">اقراء المزيد </a>
 					</div>

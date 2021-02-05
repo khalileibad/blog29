@@ -1467,6 +1467,11 @@ section {
   height: 300px;
 }
 
+.entry-img2{
+  height: 300px;
+  width: 100%;
+}
+
 .blog .entry .entry-title {
   font-size: 20px;
   line-height: 26px;

@@ -22,7 +22,7 @@
 							<img src="<?php echo URL."public/IMG/blog/".$this->blog['img'] ?>" alt="" class="img-fluid rounded d-block w-100 h-100">
 						</div>
 						<h2 class="entry-title">
-							<a><?php echo $this->blog['title']?></a>
+							<a><?php echo htmlspecialchars_decode($this->blog['title'])?></a>
 						</h2>
 						<div class="entry-meta">
 							<ul>
@@ -34,7 +34,7 @@
 							</ul>
 						</div>
 						<div class="entry-content">
-							<?php echo $this->blog['text']?>
+							<?php echo htmlspecialchars_decode($this->blog['text']);?>
 						</div>
 						<div class="entry-footer clearfix">
 							<div class="float-right">
