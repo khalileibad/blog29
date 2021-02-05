@@ -7,7 +7,7 @@
 			
 			<div class="row">
 				<div class="col-lg-8">
-					<form id="upd_blog_form" action="<?php echo URL?>home/upd_blog" method="post" role="form" enctype="multipart/form-data" class="php-form">
+					<form id="upd_blog_form" action="<?php echo URL?>accept/upd_blog" method="post" role="form" enctype="multipart/form-data" class="php-form">
 						<input type="hidden" name="csrf" class="hid_info" value="<?php echo session::get('csrf'); ?>" />
 						<input type="hidden" name="id" value="<?php echo $this->blog['id']; ?>" />
 						<div class="form-row">
