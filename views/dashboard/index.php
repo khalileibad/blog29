@@ -85,7 +85,7 @@
 		<br/>
 		<div class="container">
 			<div class="section-title">
-				<h2>الاكثر شهرة</h2>
+				<h2>الأكثر شهرة</h2>
 				<!--p>الاكثر شهرة</p-->
 			</div>
 			<div class="row">
