@@ -46,7 +46,7 @@
 				$this->index();
 				return;
 			}
-			$this->view->curr_title 	= $this->view->blog['title'];
+			$this->view->curr_title 	= htmlspecialchars_decode($this->view->blog['title']);
 			$this->view->keywords 		= $this->view->blog['keywords'];
 			$this->view->render(array('blog/details'),'home');
 		}

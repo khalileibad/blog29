@@ -31,7 +31,7 @@
 							<div class="carousel-item <?php echo $active?>" style="">
 								<img src="<?php echo URL."public/IMG/blog/".$val['img'] ?>" class="img-fluid rounded d-block w-100 h-100 slide-img" alt=""> <!--  -->
 								<div class="carousel-caption d-md-block">
-									<h3> <a href="<?php echo URL."blog/details/".$val['id']?>"> <?php echo $val['title']?> </a></h3>
+									<h3> <a href="<?php echo URL."blog/details/".$val['id']?>"> <?php echo htmlspecialchars_decode($val['title'])?> </a></h3>
 									<p><?php echo $val['desc']?></p>
 									<div class="entry-meta">
 										<div>
@@ -99,7 +99,7 @@
 							<img src="<?php echo URL."public/IMG/blog/".$val['img'] ?>" alt="" class="img-fluid" />
 						</div>
 						<h2 class="entry-title">
-							<a href="<?php echo URL."blog/details/".$val['id']?>"><?php echo $val['title']?></a>
+							<a href="<?php echo URL."blog/details/".$val['id']?>"><?php echo htmlspecialchars_decode($val['title'])?></a>
 						</h2>
 						<div class="entry-meta">
 							<ul>
@@ -108,7 +108,7 @@
 							</ul>
 						</div>
 						<div class="entry-content">
-							<p><?php echo $val['desc']?></p>
+							<p><?php echo htmlspecialchars_decode($val['desc'])?></p>
 							<div class="read-more">
 								<a href="<?php echo URL."blog/details/".$val['id']?>">اقرأ المزيد </a>
 							</div>
@@ -119,85 +119,6 @@
 				}
 			?>
 			</div>
-			
-			<!--div class="section-title">
-				<h2>التصنيف</h2>
-				<p>الاكثر شهرة</p>
-			</div>
-			<div class="row">
-				<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-					<article class="entry">
-						<div class="entry-img">
-							<img src="<?php echo URL ?>public/IMG/blog/blog-1.jpg" alt="" class="img-fluid">
-						</div>
-						<h2 class="entry-title">
-							<a href="blog-single.html">حول الهوية السودانية</a>
-						</h2>
-						<div class="entry-meta">
-							<ul>
-								<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="blog-single.html">رنا  مروان</a></li>
-								<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="2020-08-22">اغسطس 22, 2020</time></a></li>
-							</ul>
-						</div>
-						<div class="entry-content">
-							<p>
-								اقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيد.
-							</p>
-							<div class="read-more">
-								<a href="blog-single.html">اقراء المزيد </a>
-							</div>
-						</div>
-					</article><!-- End blog entry ->
-				</div>
-				<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-					<article class="entry">
-						<div class="entry-img">
-							<img src="<?php echo URL ?>public/IMG/blog/blog-1.jpg" alt="" class="img-fluid">
-						</div>
-						<h2 class="entry-title">
-							<a href="blog-single.html">حول الهوية السودانية</a>
-						</h2>
-						<div class="entry-meta">
-							<ul>
-								<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="blog-single.html">رنا  مروان</a></li>
-								<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="2020-08-22">اغسطس 22, 2020</time></a></li>
-							</ul>
-						</div>
-						<div class="entry-content">
-							<p>
-								اقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيد.
-							</p>
-							<div class="read-more">
-								<a href="blog-single.html">اقراء المزيد </a>
-							</div>
-						</div>
-					</article><!-- End blog entry ->
-				</div>
-				<div class="col-lg-4  col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-					<article class="entry">
-						<div class="entry-img">
-							<img src="<?php echo URL ?>public/IMG/blog/blog-1.jpg" alt="" class="img-fluid">
-						</div>
-						<h2 class="entry-title">
-							<a href="blog-single.html">حول الهوية السودانية</a>
-						</h2>
-						<div class="entry-meta">
-							<ul>
-								<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="blog-single.html">رنا  مروان</a></li>
-								<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="2020-08-22">اغسطس 22, 2020</time></a></li>
-							</ul>
-						</div>
-						<div class="entry-content">
-							<p>
-								اقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيداقراء المزيد.
-							</p>
-							<div class="read-more">
-								<a href="blog-single.html">اقراء المزيد </a>
-							</div>
-						</div>
-					</article><!-- End blog entry ->
-				</div>
-			</div-->
 		</div>
 	</section><!-- End Blog Section -->
 </main><!-- End #main -->

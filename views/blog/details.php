@@ -3,7 +3,7 @@
 	<section id="breadcrumbs" class="breadcrumbs">
 		<div class="container">
 			<div class="d-flex justify-content-between align-items-center">
-				<h2><?php echo $this->blog['title']?></h2>
+				<h2><?php echo htmlspecialchars_decode($this->blog['title'])?></h2>
 				<ol>
 					<li><a href="<?php echo URL?>">الرئيسية</a></li>
 					<li><a href="<?php echo URL?>blog/index"> التدوينة</a></li>
