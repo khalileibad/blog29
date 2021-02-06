@@ -24,6 +24,10 @@
 						<img src="<?php echo URL."public/IMG/users/".$this->user['user_img'] ?>" class="rounded-circle float-right" alt="">
 						<h4><?php echo $this->user['name']?></h4>
 						<div class="social-links">
+						    <h6><?php echo $this->user['title']?></h6>
+						    <?php echo str_replace("\n","<br/>",$this->user['about']);?>
+						</div>
+						<div class="social-links">
 						<?php
 							echo (!empty($this->user['user_twitter']))?'<a href="'.$this->user['user_twitter'].'" target="_blank"><i class="icofont-twitter"></i></a>':"";
 							echo (!empty($this->user['user_face']))?'<a href="'.$this->user['user_face'].'" target="_blank"><i class="icofont-facebook"></i></a>':"";

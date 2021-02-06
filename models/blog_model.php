@@ -345,10 +345,10 @@
 			}
 			
 			//get user data
-			$b = $this->db->select("SELECT staff_id, staff_name, staff_phone, staff_email, staff_img, staff_address
+			$b = $this->db->select("SELECT staff_id, staff_name, staff_title, staff_phone, staff_email, staff_img, staff_address
 									,staff_about, staff_face, staff_twitter, staff_linked, staff_instagram 
 									FROM ".DB_PREFEX."staff
-									WHERE staff_id = :ID AND staff_type = 'bloger'
+									WHERE staff_id = :ID AND staff_type IN ('bloger','accept') 
 									",array(":ID"=>$id));
 			if(count($b)!= 1)
 			{
@@ -356,6 +356,7 @@
 			}
 			$blog_user = array('id'				=>$b[0]['staff_id'],
 								'name'			=>$b[0]['staff_name'],
+								'title'			=>$b[0]['staff_title'],
 								'phone'			=>$b[0]['staff_phone'],
 								'email'			=>$b[0]['staff_email'],
 								'address'		=>$b[0]['staff_address'],
