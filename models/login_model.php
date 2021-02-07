@@ -229,7 +229,7 @@
 					->valid('Min_Length',2)
 					->valid('Max_Length',90)
 					
-					->post('phone')
+					->post('phone',false,true)
 					->valid('Phone')
 					
 					->post('email')
