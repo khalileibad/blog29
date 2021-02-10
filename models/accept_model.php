@@ -86,8 +86,10 @@
 			
 			//get blog data
 			$b = $this->db->select("SELECT b_id, b_title, b_desc, b_img, b_likes, b_see, b_accept_date
-									,b_user, create_at
+									,b_user, ".DB_PREFEX."blog.create_at
+									,staff_name
 									FROM ".DB_PREFEX."blog 
+									JOIN ".DB_PREFEX."staff ON b_user = staff_id
 									WHERE b_accept_by IS NULL
 									ORDER BY create_at DESC
 									$paginglimit
@@ -103,6 +105,8 @@
 							'b_see'		=>$val['b_see'],
 							'publish'	=>$val['b_accept_date'],
 							'create'	=>$val['create_at'],
+							'user_id'	=>$val['b_user'],
+							'user_name'	=>$val['staff_name'],
 							'cat'		=>array()
 							);
 				//get blog category

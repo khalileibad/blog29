@@ -63,7 +63,7 @@
 									<div class="entry-content">
 										<p><?php echo $val['desc']?></p>
 										<div class="read-more">
-											<a href="<?php echo URL."blog/details/".$val['id']?>">اقراء المزيد </a>
+											<a href="<?php echo URL."blog/details/".$val['id']?>">إقرأ المزيد </a>
 										</div>
 									</div>
 								</article><!-- End blog entry -->

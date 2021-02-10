@@ -15,6 +15,7 @@
 				<div class="entry-meta">
 					<ul>
 						<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i><time datetime="<?php echo $val['create']?>"><?php echo $val['create']?></time></li>
+						<li class="d-flex align-items-center"><i class="icofont-user"></i> <a target="_blank" href="<?php echo URL."blog/user/".$val['user_id']?>"><?php echo $val['user_name']?></a></li>
 						<li class="d-flex align-items-center"><?php echo (empty($val['publish']))?"غير معتمدة":"معتمدة"?></time></li>
 					</ul>
 				</div>
