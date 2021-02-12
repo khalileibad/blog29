@@ -65,7 +65,10 @@
 								<div class="err_notification" id="valid_tag">هنالك خطأ في هذا الحقل</div>
 							</div>
 						</div>
-						<div class="text-center"><button type="submit">تعديل واعتماد التدوينة</button></div>
+						<div class="text-center">
+							<button type="submit">تعديل واعتماد التدوينة</button>
+							<button type="button" id="del_blog" value="1">حذف التدوينة</button>
+						</div>
 					</form>
 				</div>
 			</div>

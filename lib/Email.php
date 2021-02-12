@@ -12,7 +12,7 @@ class Email
 		$MSG = wordwrap($MSG,70);
 		
 		$headers = 'From: <'.$from.'>' . "\r\n";
-		//mail($to,$title,$MSG,$headers);
+		mail($to,$title,$MSG,$headers);
 	}
 	
 	//Send msg Notification
@@ -33,7 +33,7 @@ class Email
 				</div>
 				</body></html>";
 		
-		//return mail($email,"Meeting info",$MSG,$headers);	
+		return mail($email,"Meeting info",$MSG,$headers);	
 	}
 	
 	public static function welcome_reg($name,$email,$from = EMAIL_ADD)
@@ -51,7 +51,7 @@ class Email
 				</div>
 				</body></html>";
 		
-		//return mail($email,"login info",$MSG,$headers);
+		return mail($email,"login info",$MSG,$headers);
 		
 	}
 	
@@ -76,7 +76,7 @@ class Email
 				</div>
 				</body></html>";
 		
-		//return mail($email,"login info",$MSG,$headers);
+		return mail($email,"login info",$MSG,$headers);
 		
 	}
 	
@@ -95,7 +95,7 @@ class Email
 				</div>
 				</body></html>";
 		
-		//return mail($email,"login info",$MSG,$headers);
+		return mail($email,"login info",$MSG,$headers);
 		
 	}
 	
@@ -114,7 +114,24 @@ class Email
 				</div>
 				</body></html>";
 		
-		//return mail($email,"login info",$MSG,$headers);
+		return mail($email,"login info",$MSG,$headers);
+	}
+	
+	public static function del_blog($name,$email,$id,$blog,$from = EMAIL_ADD)
+	{
+		$headers  = 'MIME-Version: 1.0' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+        $headers .= 'From: <'.$from.'>' . "\r\n";
+		
+		$MSG = "<html><body>
+				<div dir='rtl'>
+					الزميل $name <br/>
+					لقد تم مسح مدونتك رقم $no<br/>
+					بالعنوان $blog<br/>
+				</div>
+				</body></html>";
+		
+		return mail($email,"login info",$MSG,$headers);
 	}
 	
 	
@@ -140,7 +157,7 @@ class Email
 				
 				</body></html>";
 		
-		//return mail($email,"login info",$MSG,$headers);
+		return mail($email,"login info",$MSG,$headers);
 		
 	}
 	
@@ -162,7 +179,7 @@ class Email
 				</div>
 				</body></html>";
 		
-		//return mail($email,"login info",$MSG,$headers);
+		return mail($email,"login info",$MSG,$headers);
 		
 	}
 	

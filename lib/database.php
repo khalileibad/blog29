@@ -44,7 +44,7 @@
 				
 				$visit = session::get('VISIT') + 1;
 				session::set('VISIT',$visit);
-				$this->update('config',array('conf_val'=>$visit),'conf_name = "VISIT"');
+				$this->update(DB_PREFEX.'config',array('conf_val'=>$visit),'conf_name = "VISIT"');
 				
 				cookies::set('main_visit',session::get_id(),time()+60*60*24*365);
 				cookies::set('visit',session::get_id(),time()+60*60);
@@ -54,7 +54,7 @@
 				cookies::set('visit',session::get_id(),time()+60*60);
 				$visit = session::get('VISIT') + 1;
 				session::set('VISIT',$visit);
-				$this->update('config',array('conf_val'=>$visit),'conf_name = "VISIT"');
+				$this->update(DB_PREFEX.'config',array('conf_val'=>$visit),'conf_name = "VISIT"');
 			}
 			
 		}

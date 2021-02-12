@@ -466,6 +466,9 @@
 					->post('tag',false,true) // tag
 					->valid('Min_Length',3)
 					
+					->post('del_blog',false,true) // delete
+					->valid('numeric')
+					
 					->submit();
 			$fdata	= $form->fetch();
 			
@@ -474,7 +477,7 @@
 				return array('Error'=>$fdata['MSG']);
 			}
 			
-			//create blog
+			//update and accept blog
 			
 			$fdata['blog_desc'] = str_replace("&amp;","&",$fdata['blog_desc']);
 			$fdata['blog_content'] = str_replace("&amp;","&",$fdata['blog_content']);
@@ -513,6 +516,40 @@
 				$this->db->insert(DB_PREFEX.'blog_category',array("blog_id"=>$fdata['id'],"category"=>$val,"comment"=>""));
 			}
 			return array('id'=> $fdata['id']);
+		}
+		
+		/**
+		* function del_blog
+		* delete blog
+		*/
+		public function del_blog()
+		{
+			$time	= dates::convert_to_date('now');
+			$time	= dates::convert_to_string($time);
+			
+			$form	= new form();
+			
+			$form	->post('id') // ID
+					->valid('numeric')
+					
+					->post('blog_name') // Name
+					->valid('Min_Length',3)
+					->valid('Max_Length',100)
+					
+					->submit();
+			$fdata	= $form->fetch();
+			
+			if(!empty($fdata['MSG']))
+			{
+				return array('Error'=>$fdata['MSG']);
+			}
+			
+			$this->db->delete(DB_PREFEX.'blog_category',"blog_id = ".$fdata['id']);
+			$this->db->delete(DB_PREFEX.'blog',"b_id = ".$fdata['id']);
+			
+			Email::del_blog($name,$email,$fdata['id'],$fdata['blog_name'],$from = EMAIL_ADD)
+			return array('id'=> $fdata['id'],'del'=>1);
+			
 		}
 		
 		/**

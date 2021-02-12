@@ -116,6 +116,16 @@
 		}
 		
 		/**
+		* del_blog
+		* delete blog
+		* AJAX
+		*/
+		function del_blog()
+		{
+			echo json_encode($this->model->del_blog());
+		}
+		
+		/**
 		* upd_comments
 		* accept/ deny comments
 		* AJAX

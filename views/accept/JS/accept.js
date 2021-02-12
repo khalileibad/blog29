@@ -157,8 +157,7 @@ $('#upd_blog_form').submit(function(e) {
 					error_handler(x);
 				}else if("id" in obj && obj.id != 0)
 				{
-					alert("تم اضافة المدونة بنجاح");
-					
+					alert("تم تعديل واعتماد المدونة بنجاح");
 				}else
 				{
 					alert(x);
@@ -171,6 +170,32 @@ $('#upd_blog_form').submit(function(e) {
 		resetForm: false
 	});
 	return false; 
+})
+
+//del_blog_form submit
+$('#del_blog').click(function(e) {
+	alert("ss");
+	var postData = $('#upd_blog_form').serializeArray();
+	$.post(URL+"accept/del_blog",postData,function(data,status,xhr)
+	{
+		try {
+			var obj = JSON.parse(data);
+			if ("Error" in obj)
+			{
+				error_handler(data);
+			}else if("id" in obj && obj.id != 0)
+			{
+				alert("تم حذف المدونة بنجاح");
+				window.history.back();
+			}else
+			{
+				alert(data);
+			}
+		}
+		catch(err) {
+			alert(err.message+"\n"+data);
+		}
+	})
 })
 
 //Get surgery type list
