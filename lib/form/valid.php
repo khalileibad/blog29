@@ -157,7 +157,7 @@
 		{
 			$this->Min_Length($data,10);
 			$this->Max_Length($data,10);
-			$this->numeric($data,10);
+			$this->Integer($data);
 		}
 		
 		public function In_Array($data,$array)

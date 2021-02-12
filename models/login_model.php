@@ -294,7 +294,7 @@
 			//insert
 			$user_array = array('staff_name'		=>$req['name']
 								,'staff_email'		=>$req['email']
-								,'staff_phone'		=>$req['phone']
+								,'staff_phone'		=>(empty($req['phone']))?null:$req['phone']
 								,'staff_type'		=>"bloger"
 								,'staff_pass'		=>Hash::create(HASH_FUN,$req['pwd'],HASH_PASSWORD_KEY)
 								,'create_at'		=>$time
