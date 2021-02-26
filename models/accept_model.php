@@ -383,7 +383,9 @@
 			//get blog data
 			$b = $this->db->select('SELECT b_id, b_title, b_desc, b_img, b_likes
 									,b_see, b_accept_date, b_blog, b_keywords
+									,staff_id, staff_name, staff_phone, staff_email
 									FROM '.DB_PREFEX.'blog 
+									JOIN '.DB_PREFEX.'staff ON b_user = staff_id
 									WHERE b_accept_by IS NULL AND b_id = :ID
 									',array(':ID'=>$blog_id));
 			if(count($b) != 1)
@@ -400,6 +402,10 @@
 						'b_see'		=>$b[0]['b_see'],
 						'publish'	=>$b[0]['b_accept_date'],
 						'keywords'	=>$b[0]['b_keywords'],
+						'user'		=>$b[0]['staff_id'],
+						'user_name'	=>$b[0]['staff_name'],
+						'user_phone'=>$b[0]['staff_phone'],
+						'user_email'=>$b[0]['staff_email'],
 						'cat'		=>array(),
 						'comment'	=>array()
 						);
@@ -536,6 +542,9 @@
 					->valid('Min_Length',3)
 					->valid('Max_Length',100)
 					
+					->post('user_name') // Name
+					->post('user_email') // Name
+					
 					->submit();
 			$fdata	= $form->fetch();
 			
@@ -547,7 +556,7 @@
 			$this->db->delete(DB_PREFEX.'blog_category',"blog_id = ".$fdata['id']);
 			$this->db->delete(DB_PREFEX.'blog',"b_id = ".$fdata['id']);
 			
-			Email::del_blog($name,$email,$fdata['id'],$fdata['blog_name'],$from = EMAIL_ADD)
+			Email::del_blog($fdata["user_name"],$fdata['user_email'],$fdata['id'],$fdata['blog_name'],$from = EMAIL_ADD);
 			return array('id'=> $fdata['id'],'del'=>1);
 			
 		}

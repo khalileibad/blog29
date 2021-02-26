@@ -2,6 +2,7 @@
 	<section id="testimonials" class="testimonials">
 		<div class="container">
 			<h2><?php echo $this->blog['title'];?></h2>
+			<span class="d-flex align-items-center"><i class="icofont-user"></i><?php echo $this->blog['user_name']?></span>
 			<span class="d-flex align-items-center"><i class="icofont-like"></i><?php echo $this->blog['likes']?></span>
 			<span class="d-flex align-items-center"><i class="icofont-eye"></i> <?php echo $this->blog['b_see']?></span>
 			
@@ -10,6 +11,10 @@
 					<form id="upd_blog_form" action="<?php echo URL?>accept/upd_blog" method="post" role="form" enctype="multipart/form-data" class="php-form">
 						<input type="hidden" name="csrf" class="hid_info" value="<?php echo session::get('csrf'); ?>" />
 						<input type="hidden" name="id" value="<?php echo $this->blog['id']; ?>" />
+						<input type="hidden" name="user" value="<?php echo $this->blog['user']; ?>" />
+						<input type="hidden" name="user_email" value="<?php echo $this->blog['user_email']; ?>" />
+						<input type="hidden" name="user_name" value="<?php echo $this->blog['user_name']; ?>" />
+					
 						<div class="form-row">
 							<div class="col-md-6 form-group">
 								<div class="text-center">

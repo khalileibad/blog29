@@ -33,7 +33,7 @@ class Email
 				</div>
 				</body></html>";
 		
-		return mail($email,"Meeting info",$MSG,$headers);	
+		return mail($msg_data['con_email'],"Meeting info",$MSG,$headers);	
 	}
 	
 	public static function welcome_reg($name,$email,$from = EMAIL_ADD)
@@ -126,7 +126,7 @@ class Email
 		$MSG = "<html><body>
 				<div dir='rtl'>
 					الزميل $name <br/>
-					لقد تم مسح مدونتك رقم $no<br/>
+					لقد تم مسح مدونتك رقم $id<br/>
 					بالعنوان $blog<br/>
 				</div>
 				</body></html>";
