@@ -12,7 +12,7 @@
 									,"image/pjpeg"
 									,"image/x-png"
 									,"image/png");
-		private $img_Exts	= array("gif", "jpeg", "jpg", "png");
+		private $img_Exts	= array("gif", "jpeg", "jpg", "png", "webp");
 		private $doc_type	= array("application/pdf"
 									,"application/msword"
 									,"application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -48,12 +48,12 @@
 		function check_file($file,$type="")
 		{
 			if(empty($file)||!is_array($file))
-			{echo "11111";
+			{
 				return false;
 			}
 			if($file["error"] != 0)
 			{
-				echo $this->upl_err[$file["error"]];
+				//echo $this->upl_err[$file["error"]];
 				return false;
 			}
 			
@@ -88,12 +88,12 @@
 		
 			if(empty($extension) || !in_array($extension,$ext))
 			{
-				echo "Error in file EXT".$file["name"]." exension - ".$extension." - ".$type."<br/>";
+				//echo "Error in file EXT".$file["name"]." exension - ".$extension." - ".$type."<br/>";
 				return false;
 			}
 			if(!in_array($file["type"],$ty))
 			{
-				echo "Error in file type".$file["name"]." type - ".$file["type"];
+				//echo "Error in file type".$file["name"]." type - ".$file["type"];
 				return false;
 			}
 			
@@ -103,7 +103,7 @@
 				return $file['name'];
 			}else
 			{
-				echo "Error in file: ".$file['name']." SIZE";
+				//echo "Error in file: ".$file['name']." SIZE";
 				return false;
 			}
 		}
