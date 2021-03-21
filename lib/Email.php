@@ -44,10 +44,12 @@ class Email
 		
 		$MSG = "<html><body>
 				<div dir='rtl'>
-					<img src='".URL."public/IMG/mail_msg.jpg'/><br/>
+					<img src='".URL."public/IMG/logo.png'/><br/>
 					عزيزي $name <br/>
 					مرحبا بك في موقع ".TITLE."<br/>
-					سيتم التواصل معك لتأكيد عملية التسجيل في اقرب وقت
+					نحن نسعد بلقائك معنا, وبهذه الخطوة تم تأكيد حسابك وإكتمل التسجيل. <br/>
+					يمكنك الان الدخول في اي وقت عبر الايميل وكلمة السر. <br/>
+					شكرا لك.
 				</div>
 				</body></html>";
 		
