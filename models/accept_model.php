@@ -67,7 +67,7 @@
 			{
 				$c = $this->db->select("SELECT count(b_id) AS a
 										FROM ".DB_PREFEX."blog
-										WHERE b_accept_by IS NULL
+										WHERE 1=1
 										" ,array());
 										
 				$pages = ceil($c[0]['a'] / PAGING);
@@ -90,7 +90,7 @@
 									,staff_name
 									FROM ".DB_PREFEX."blog 
 									JOIN ".DB_PREFEX."staff ON b_user = staff_id
-									WHERE b_accept_by IS NULL
+									WHERE 1=1
 									ORDER BY create_at DESC
 									$paginglimit
 									",array());
@@ -386,7 +386,7 @@
 									,staff_id, staff_name, staff_phone, staff_email
 									FROM '.DB_PREFEX.'blog 
 									JOIN '.DB_PREFEX.'staff ON b_user = staff_id
-									WHERE b_accept_by IS NULL AND b_id = :ID
+									WHERE b_id = :ID
 									',array(':ID'=>$blog_id));
 			if(count($b) != 1)
 			{
@@ -483,6 +483,17 @@
 				return array('Error'=>$fdata['MSG']);
 			}
 			
+			//check Blog
+			$b = $this->db->select('SELECT b_id, b_accept_date
+									FROM '.DB_PREFEX.'blog 
+									WHERE b_id = :ID
+									',array(':ID'=>$fdata['id']));
+			
+			if(count($b) != 1)
+			{
+				return array('Error'=>"Blog Not Found");
+			}
+			
 			//update and accept blog
 			
 			$fdata['blog_desc'] = str_replace("&amp;","&",$fdata['blog_desc']);
@@ -492,11 +503,15 @@
 								,'b_desc'		=> htmlspecialchars_decode($fdata['blog_desc'])
 								,'b_keywords'	=> $fdata['tag']
 								,'b_blog'		=> htmlspecialchars_decode($fdata['blog_content'])
-								,'b_accept_by'	=> session::get('user_id')
-								,'b_accept_date'=> $time
 								,'update_at'	=> $time
 								,'update_by'	=> session::get('user_id')
 								);
+			
+			if(empty($b[0]['b_accept_date']))
+			{
+				$blog_array['b_accept_by'] 		= session::get('user_id');
+				$blog_array['b_accept_date'] 	= $time;
+			}
 			
 			//update image
 			if(!empty($_FILES['blog_img']))

@@ -448,7 +448,18 @@
 				return array('Error'=>$fdata['MSG']);
 			}
 			
-			//create blog
+			$b = $this->db->select('SELECT b_id, b_accept_date
+									FROM '.DB_PREFEX.'blog 
+									WHERE b_id = :ID AND b_user = :USER
+									',array(':USER'=>session::get('user_id'),':ID'=>$fdata['id']));
+			
+			if(count($b) != 1)
+			{
+				return array('Error'=>"Blog Not Found");
+			}
+			
+			
+			//update blog
 			
 			$fdata['blog_desc'] = str_replace("&amp;","&",$fdata['blog_desc']);
 			$fdata['blog_content'] = str_replace("&amp;","&",$fdata['blog_content']);
