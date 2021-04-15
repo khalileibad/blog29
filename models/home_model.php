@@ -27,7 +27,7 @@
 		{
 			//get user data
 			$b = $this->db->select("SELECT staff_id, staff_name, staff_phone, staff_email, staff_img, staff_address
-									,staff_about, staff_face, staff_twitter, staff_linked, staff_instagram 
+									,staff_about, staff_face, staff_twitter, staff_linked, staff_instagram ,staff_birth
 									FROM ".DB_PREFEX."staff
 									WHERE staff_id = :ID AND staff_type = 'bloger'
 									",array(":ID"=>session::get('user_id')));
@@ -39,6 +39,7 @@
 								'name'			=>$b[0]['staff_name'],
 								'phone'			=>$b[0]['staff_phone'],
 								'email'			=>$b[0]['staff_email'],
+								'birth'			=>$b[0]['staff_birth'],
 								'address'		=>$b[0]['staff_address'],
 								'about'			=>$b[0]['staff_about'],
 								'user_img'		=>$b[0]['staff_img'],
@@ -145,6 +146,9 @@
 					->post('phone') // phone
 					->valid('Phone')
 					
+					->post('birth')
+					->valid('Date')
+					
 					->post('description') // description
 					->valid('Min_Length',3)
 					
@@ -217,6 +221,7 @@
 			//create people
 			$people_array = array('staff_name'		=> $fdata['name']
 								,'staff_phone'		=> $fdata['phone']
+								,'staff_birth'		=> $fdata['birth']
 								,'staff_email'		=> $fdata['email']
 								,'staff_address'	=> $fdata['address']
 								,'staff_about'		=> $fdata['description']

@@ -27,7 +27,7 @@
 		{
 			//get user data
 			$b = $this->db->select("SELECT staff_id, staff_name, staff_phone, staff_email, staff_img, staff_address
-									,staff_about, staff_face, staff_twitter, staff_linked, staff_instagram 
+									,staff_about, staff_face, staff_twitter, staff_linked, staff_instagram, staff_birth 
 									FROM ".DB_PREFEX."staff
 									WHERE staff_id = :ID AND staff_type = 'accept'
 									",array(":ID"=>session::get('user_id')));
@@ -38,6 +38,7 @@
 			$blog_user = array('id'				=>$b[0]['staff_id'],
 								'name'			=>$b[0]['staff_name'],
 								'phone'			=>$b[0]['staff_phone'],
+								'birth'			=>$b[0]['staff_birth'],
 								'email'			=>$b[0]['staff_email'],
 								'address'		=>$b[0]['staff_address'],
 								'about'			=>$b[0]['staff_about'],
@@ -166,6 +167,9 @@
 					->post('email') // email
 					->valid('Email')
 					
+					->post('birth')
+					->valid('Date')
+					
 					->post('phone') // phone
 					->valid('Phone')
 					
@@ -242,6 +246,7 @@
 			$people_array = array('staff_name'		=> $fdata['name']
 								,'staff_phone'		=> $fdata['phone']
 								,'staff_email'		=> $fdata['email']
+								,'staff_birth'		=> $fdata['birth']
 								,'staff_address'	=> $fdata['address']
 								,'staff_about'		=> $fdata['description']
 								,'staff_face'		=> $fdata['facebook']

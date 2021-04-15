@@ -35,6 +35,12 @@
 								البيانات في هذا الحقل مكررة
 							</div>
 						</div><br/>
+						<div class="form-row">
+							<input type="date" name="birth" class="form-control" id="birth" placeholder="تاريخ الميلاد" data-rule="minlen:4" data-msg="ادخل تاريخ الميلاد" />
+							<div class="err_notification" id="valid_birth">
+								هنالك خطأ في هذا الحقل
+							</div>
+						</div><br/>
 						<div class="form-row">							
 							<input type="email" class="form-control" name="email" id="email" placeholder="البريد الإلكترونى" data-rule="email" data-msg="من فضلك ادخل بريد الإلكترونى صحيح" />
 							<div class="err_notification" id="valid_email">
@@ -57,14 +63,11 @@
 							</div>
 						</div>
 						<div class="form-row">
-							<input type="checkbox" class="custom-form-control" id="customCheck1" name="accept" value="1">
+							<input type="checkbox" class="custom-form-control" id="customCheck1" name="accept" value="1" />
 							<label class="custom-control-label" for="customCheck1">اقبل <a target="_blank" href="<?php echo URL?>dashboard/terms"> الاحكام والشروط</a></label>
 							<br/>
 							<div class="err_notification" id="valid_accept">
 								الرجاء قبول الأحكام والشروط
-							</div>
-							<div class="err_notification" id="valid_accept">
-								هنالك خطأ في هذا الحقل
 							</div>
 						</div>
 						<div class="text-center"><button type="submit">تسجيل</button></div>

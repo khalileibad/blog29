@@ -1,0 +1,1 @@
+ALTER TABLE `b29_staff` ADD `staff_birth` DATE NOT NULL AFTER `staff_name`;

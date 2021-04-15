@@ -135,20 +135,25 @@
 											</div>
 										</div>
 										<div class="form-row">
-											<div class="col-md-4 form-group">
+											<div class="col-md form-group">
 												<label for="name">الاسم</label>
 												<input type="text" name="name" class="form-control" id="name" value="<?php echo $this->info['name']?>" />
 												<div class="err_notification" id="valid_name">هنالك خطأ في هذا الحقل</div>
 											</div>
-											<div class="col-md-4 form-group">
+											<div class="col-md form-group">
 												<label for="email">البريد الإلكترونى/ اسم المستخدم</label>
 												<input type="email" class="form-control" name="email" id="email" value="<?php echo $this->info['email']?>" data-rule="email" data-msg="من فضلك ادخل بريد الإلكترونى صحيح" />
 												<div class="err_notification" id="valid_email">هنالك خطأ في هذا الحقل</div>
 											</div>
-											<div class="col-md-4 form-group">
+											<div class="col-md form-group">
 												<label for="phone">رقم الهاتف</label>
-												<input type="phone" class="form-control" name="phone" id="phone" value="<?php echo $this->info['phone']?>" data-rule="email" data-msg="من فضلك ادخل بريد الإلكترونى صحيح" />
+												<input type="phone" class="form-control" name="phone" id="phone" value="<?php echo $this->info['phone']?>" data-rule="phone" data-msg="من فضلك ادخل رقم هاتف صحيح" />
 												<div class="err_notification" id="valid_phone">هنالك خطأ في هذا الحقل</div>
+											</div>
+											<div class="col-md form-group">
+												<label for="phone">تاريخ الميلاد</label>
+												<input type="date" class="form-control" name="birth" id="birth" value="<?php echo $this->info['birth']?>" data-rule="date" data-msg="من فضلك ادخل تاريخ ميلاد صحيح" />
+												<div class="err_notification" id="valid_birth">هنالك خطأ في هذا الحقل</div>
 											</div>
 										</div>
 										<div class="form-row">

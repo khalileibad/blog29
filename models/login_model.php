@@ -235,6 +235,9 @@
 					->post('email')
 					->valid('Email')
 					
+					->post('birth')
+					->valid('Date')
+					
 					->post('pwd')
 					->valid('Min_Length',2)
 					->valid('Max_Length',90)
@@ -293,6 +296,7 @@
 			
 			//insert
 			$user_array = array('staff_name'		=>$req['name']
+								,'staff_birth'		=>$req['birth']
 								,'staff_email'		=>$req['email']
 								,'staff_phone'		=>(empty($req['phone']))?null:$req['phone']
 								,'staff_type'		=>"bloger"
